@@ -17,5 +17,6 @@ namespace NHibernate.Search.Mapping.Model
 		IDocumentIdDefinition DocumentId(MemberInfo member);
 		IList<IFieldDefinition> FieldDefinitions(MemberInfo member);
 		IIndexedEmbeddedDefinition IndexedEmbedded(MemberInfo member);
+		bool HasContainedInDefinition(MemberInfo member);
 	}
 }

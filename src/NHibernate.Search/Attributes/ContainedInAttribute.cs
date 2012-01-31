@@ -1,4 +1,5 @@
 using System;
+using NHibernate.Search.Mapping.Definition;
 
 namespace NHibernate.Search.Attributes
 {
@@ -28,7 +29,7 @@ namespace NHibernate.Search.Attributes
     /// </code>
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
-    public class ContainedInAttribute : Attribute
+	public class ContainedInAttribute : Attribute, IContainedInDefinition
     {
     }
 }

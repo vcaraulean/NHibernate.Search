@@ -253,7 +253,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
                 maxLevel = oldMaxLevel; // set back the old max level
             }
 
-            if (AttributeUtil.HasAttribute<ContainedInAttribute>(member))
+            if (mappingDefinition.HasContainedInDefinition(member))
             {
                 documentMapping.ContainedIn.Add(new ContainedInMapping(getter));
             }
