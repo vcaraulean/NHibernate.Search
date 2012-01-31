@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Reflection;
 
 using NHibernate.Search.Attributes;
+using NHibernate.Search.Mapping.Definition;
 
 namespace NHibernate.Search.Mapping.AttributeBased
 {
@@ -41,7 +42,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
             return (T[])member.GetCustomAttributes(typeof(T), inherit);
         }
 
-        public static void GetClassBridgeParameters(ICustomAttributeProvider member, IList<ClassBridgeAttribute> classBridges)
+        public static void GetClassBridgeParameters(System.Type member, IList<IClassBridgeDefinition> classBridges)
         {
             // Are we expecting any unnamed parameters?
             bool fieldBridgeExists = GetFieldBridge(member) != null;
@@ -80,7 +81,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
                     bool found = false;
 
                     // Now see if we can find the owner
-                    foreach (ClassBridgeAttribute classBridge in classBridges)
+                    foreach (IClassBridgeDefinition classBridge in classBridges)
                     {
                         if (classBridge.Name == parameter.Owner)
                         {

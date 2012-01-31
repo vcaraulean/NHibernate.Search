@@ -96,7 +96,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
                 var analyzer = documentMapping.Analyzer ?? localAnalyzer;
 
                 // Check for any ClassBridges
-                var classBridgeAttributes = AttributeUtil.GetAttributes<ClassBridgeAttribute>(currClass);
+                var classBridgeAttributes = mappingDefinition.ClassBridges(currClass);
                 AttributeUtil.GetClassBridgeParameters(currClass, classBridgeAttributes);
 
                 // Now we can process the class bridges

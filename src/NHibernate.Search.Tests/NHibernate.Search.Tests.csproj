@@ -149,6 +149,7 @@
     <Compile Include="LuceneWorker\Document.cs" />
     <Compile Include="LuceneWorker\LuceneWorker.cs" />
     <Compile Include="Mapping\AttributeBased\AttributedMappingDefinitionTestBase.cs" />
+    <Compile Include="Mapping\AttributeBased\MappingDefinition\ClassBridgesTest.cs" />
     <Compile Include="Mapping\AttributeBased\MappingDefinition\FullTextFilterDefinitionTest.cs" />
     <Compile Include="Mapping\AttributeBased\MappingDefinition\IndexedDefinitionTest.cs" />
     <Compile Include="Mapping\SearchMappingFactoryTest.cs" />

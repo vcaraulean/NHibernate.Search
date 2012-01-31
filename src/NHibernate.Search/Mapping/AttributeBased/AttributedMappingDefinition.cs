@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using NHibernate.Search.Attributes;
 using NHibernate.Search.Engine;
 using NHibernate.Search.Impl;
+using NHibernate.Search.Mapping.Definition;
 using NHibernate.Search.Mapping.Model;
 
 namespace NHibernate.Search.Mapping.AttributeBased
@@ -24,6 +24,11 @@ namespace NHibernate.Search.Mapping.AttributeBased
 				.GetAttributes<FullTextFilterDefAttribute>(type, false)
 				.Select(CreateFilterDefinition)
 				.ToList();
+		}
+
+		public IList<IClassBridgeDefinition> ClassBridges(Type type)
+		{
+			return AttributeUtil.GetAttributes<ClassBridgeAttribute>(type);
 		}
 
 		private FilterDef CreateFilterDefinition(FullTextFilterDefAttribute att)
