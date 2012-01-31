@@ -52,6 +52,11 @@ namespace NHibernate.Search.Mapping.AttributeBased
 			return AttributeUtil.GetAttributes<FieldAttribute>(member);
 		}
 
+		public IIndexedEmbeddedDefinition IndexedEmbedded(MemberInfo member)
+		{
+			return AttributeUtil.GetAttribute<IndexedEmbeddedAttribute>(member);
+		}
+
 		private FilterDef CreateFilterDefinition(FullTextFilterDefAttribute att)
 		{
 			try

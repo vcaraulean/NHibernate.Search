@@ -192,11 +192,11 @@ namespace NHibernate.Search.Mapping.AttributeBased
                 }
             }
 
-            var embeddedAttribute = AttributeUtil.GetAttribute<IndexedEmbeddedAttribute>(member);
-            if (embeddedAttribute != null)
+            var embeddedDefinition = mappingDefinition.IndexedEmbedded(member);
+            if (embeddedDefinition != null)
             {
                 int oldMaxLevel = maxLevel;
-                int potentialLevel = embeddedAttribute.Depth + level;
+                int potentialLevel = embeddedDefinition.Depth + level;
                 if (potentialLevel < 0)
                 {
                     potentialLevel = int.MaxValue;
@@ -205,9 +205,9 @@ namespace NHibernate.Search.Mapping.AttributeBased
                 maxLevel = potentialLevel > maxLevel ? maxLevel : potentialLevel;
                 level++;
 
-                System.Type elementType = embeddedAttribute.TargetElement ?? GetMemberTypeOrGenericArguments(member);
+                System.Type elementType = embeddedDefinition.TargetElement ?? GetMemberTypeOrGenericArguments(member);
 
-                var localPrefix = embeddedAttribute.Prefix == "." ? member.Name + "." : embeddedAttribute.Prefix;
+                var localPrefix = embeddedDefinition.Prefix == "." ? member.Name + "." : embeddedDefinition.Prefix;
 
                 if (maxLevel == int.MaxValue && context.Processed.Contains(elementType))
                 {
