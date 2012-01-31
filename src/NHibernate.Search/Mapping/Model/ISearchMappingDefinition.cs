@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using NHibernate.Search.Engine;
 using NHibernate.Search.Mapping.Definition;
 
@@ -13,5 +14,6 @@ namespace NHibernate.Search.Mapping.Model
 		IList<IClassBridgeDefinition> ClassBridges(Type type);
 		IFieldBridgeDefinition FieldBridge(Type type);
 		IList<IParameterDefinition> BridgeParameters(Type type);
+		IDocumentIdDefinition DocumentId(MemberInfo member);
 	}
 }

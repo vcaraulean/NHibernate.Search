@@ -1,15 +1,16 @@
 using System;
+using NHibernate.Search.Mapping.Definition;
 
 namespace NHibernate.Search.Attributes
 {
-    /// <summary>
+	/// <summary>
     /// Declare a field as the document id. If set to a property, the property will be used
     /// Note that <see cref="FieldBridgeAttribute" /> must return the Entity id
     /// </summary>
     /// TODO: If set to a class, the class itself will be passed to the FieldBridge
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
-    public class DocumentIdAttribute : Attribute
-    {
+    public class DocumentIdAttribute : Attribute, IDocumentIdDefinition
+	{
         private string name = null;
 
         public string Name

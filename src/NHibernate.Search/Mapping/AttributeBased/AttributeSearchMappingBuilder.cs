@@ -10,7 +10,6 @@ using Lucene.Net.Analysis;
 using NHibernate.Properties;
 using NHibernate.Search.Attributes;
 using NHibernate.Search.Bridge;
-using NHibernate.Search.Engine;
 using NHibernate.Search.Impl;
 using NHibernate.Search.Mapping.Definition;
 using NHibernate.Search.Mapping.Model;
@@ -138,10 +137,10 @@ namespace NHibernate.Search.Mapping.AttributeBased
             
             var getter = GetGetterFast(documentMapping.MappedClass, member);
 
-            var documentIdAttribute = AttributeUtil.GetAttribute<DocumentIdAttribute>(member);
-            if (documentIdAttribute != null)
+            var documentId = mappingDefinition.DocumentId(member);
+            if (documentId != null)
             {
-                string documentIdName = documentIdAttribute.Name ?? member.Name;
+                string documentIdName = documentId.Name ?? member.Name;
                 bridge = GetFieldBridge(member);
 
                 if (isRoot)

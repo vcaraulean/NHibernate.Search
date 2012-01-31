@@ -1,4 +1,4 @@
-namespace NHibernate.Search.Mapping.Model
+namespace NHibernate.Search.Mapping.Definition
 {
 	public interface IIndexedDefinition
 	{

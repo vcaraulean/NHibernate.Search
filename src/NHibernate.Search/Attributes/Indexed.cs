@@ -1,5 +1,5 @@
 using System;
-using NHibernate.Search.Mapping.Model;
+using NHibernate.Search.Mapping.Definition;
 
 namespace NHibernate.Search.Attributes
 {

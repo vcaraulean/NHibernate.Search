@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using NHibernate.Search.Attributes;
 using NHibernate.Search.Engine;
 using NHibernate.Search.Impl;
@@ -39,6 +40,11 @@ namespace NHibernate.Search.Mapping.AttributeBased
 		public IList<IParameterDefinition> BridgeParameters(Type type)
 		{
 			return AttributeUtil.GetAttributes<ParameterAttribute>(type);
+		}
+
+		public IDocumentIdDefinition DocumentId(MemberInfo member)
+		{
+			return AttributeUtil.GetAttribute<DocumentIdAttribute>(member);
 		}
 
 		private FilterDef CreateFilterDefinition(FullTextFilterDefAttribute att)
