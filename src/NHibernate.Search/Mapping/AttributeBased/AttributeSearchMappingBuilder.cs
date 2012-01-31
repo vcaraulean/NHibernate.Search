@@ -64,55 +64,8 @@ namespace NHibernate.Search.Mapping.AttributeBased
         {
             foreach (var defAttribute in mappingDefinition.FullTextFilters(classMapping.MappedClass))
             {
-                classMapping.FullTextFilterDefinitions.Add(BuildFilterDef(defAttribute));
+                classMapping.FullTextFilterDefinitions.Add(defAttribute);
             }
-        }
-
-        private FilterDef BuildFilterDef(IFullTextFilterDefinition def)
-        {
-            var filterDef = new FilterDef
-            {
-                Name = def.Name,
-                Impl = def.Impl,
-                Cache = def.Cache
-            };
-
-            try {
-                Activator.CreateInstance(filterDef.Impl);
-            }
-            catch (Exception e) {
-                throw new SearchException("Unable to create Filter class: " + filterDef.Impl.FullName, e);
-            }
-
-            foreach (var method in filterDef.Impl.GetMethods())
-            {
-                if (AttributeUtil.HasAttribute<FactoryAttribute>(method))
-                {
-                    if (filterDef.FactoryMethod != null)
-                        throw new SearchException("Multiple Factory methods found " + filterDef.Name + ":" +
-                                                  filterDef.Impl.FullName + "." + method.Name);
-                    filterDef.FactoryMethod = method;
-                }
-
-                if (AttributeUtil.HasAttribute<KeyAttribute>(method))
-                {
-                    if (filterDef.KeyMethod != null)
-                        throw new SearchException("Multiple Key methods found " + filterDef.Name + ":" +
-                                                  filterDef.Impl.FullName + "." + method.Name);
-                    filterDef.KeyMethod = method;
-                }
-            }
-
-            // Use properties rather than the Java setter logic idea
-            foreach (PropertyInfo prop in filterDef.Impl.GetProperties())
-            {
-                if (AttributeUtil.HasAttribute<FilterParameterAttribute>(prop))
-                {
-                    filterDef.AddSetter(prop);
-                }
-            }
-
-            return filterDef;
         }
 
         private void BuildClass(

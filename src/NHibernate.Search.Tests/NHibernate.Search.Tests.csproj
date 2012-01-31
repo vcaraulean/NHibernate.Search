@@ -148,6 +148,9 @@
     <Compile Include="ListenerCfg\ListenerRegistrationTests.cs" />
     <Compile Include="LuceneWorker\Document.cs" />
     <Compile Include="LuceneWorker\LuceneWorker.cs" />
+    <Compile Include="Mapping\AttributeBased\AttributedMappingDefinitionTestBase.cs" />
+    <Compile Include="Mapping\AttributeBased\MappingDefinition\FullTextFilterDefinitionTest.cs" />
+    <Compile Include="Mapping\AttributeBased\MappingDefinition\IndexedDefinitionTest.cs" />
     <Compile Include="Mapping\SearchMappingFactoryTest.cs" />
     <Compile Include="Optimizer\Construction.cs" />
     <Compile Include="Optimizer\IncrementalOptimizerStrategyTest.cs">
@@ -327,7 +330,6 @@
     <EmbeddedResource Include="Filter\Driver.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Mapping\AttributeBased\" />
     <Folder Include="NHSpecificTest\" />
     <Folder Include="Properties\" />
   </ItemGroup>

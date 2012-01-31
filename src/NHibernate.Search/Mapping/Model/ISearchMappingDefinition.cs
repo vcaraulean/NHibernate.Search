@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NHibernate.Search.Engine;
 
 namespace NHibernate.Search.Mapping.Model
 {
@@ -7,6 +8,6 @@ namespace NHibernate.Search.Mapping.Model
 	public interface ISearchMappingDefinition
 	{
 		IIndexedDefinition IndexedDefinition(Type type);
-		IEnumerable<IFullTextFilterDefinition> FullTextFilters(Type type);
+		IList<FilterDef> FullTextFilters(Type type);
 	}
 }

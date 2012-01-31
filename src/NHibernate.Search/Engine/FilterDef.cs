@@ -5,48 +5,29 @@ using System.Reflection;
 
 namespace NHibernate.Search.Engine
 {
-    public delegate void Method();
-
-    public class FilterDef
+	public class FilterDef
     {
-        private System.Type impl;
-        private MethodInfo factoryMethod;
-        private MethodInfo keyMethod;
-        private Dictionary<string, PropertyInfo> setters;
-        private bool cache;
-
-        public FilterDef()
+		public FilterDef()
         {
-            setters = new Dictionary<string, PropertyInfo>();
+            Setters = new Dictionary<string, PropertyInfo>();
+			
+			// Default value - true
+			Cache = true;
         }
 
         #region Property methods
 
-        public MethodInfo KeyMethod
-        {
-            get { return keyMethod; }
-            set { keyMethod = value; }
-        }
+		public MethodInfo KeyMethod { get; set; }
 
-        public MethodInfo FactoryMethod
-        {
-            get { return factoryMethod; }
-            set { factoryMethod = value; }
-        }
+		public MethodInfo FactoryMethod { get; set; }
 
-        public System.Type Impl
-        {
-            get { return impl; }
-            set { impl = value; }
-        }
+		public System.Type Impl { get; set; }
 
-        public bool Cache
-        {
-            get { return cache; }
-            set { cache = value; }
-        }
+		public bool Cache { get; set; }
 
-        public string Name { get; set; }
+		public string Name { get; set; }
+
+		public IDictionary<string, PropertyInfo> Setters { get; private set; }
 
         #endregion
 
@@ -54,19 +35,14 @@ namespace NHibernate.Search.Engine
 
         public void Invoke(string parameterName, object filter, object parameterValue)
         {
-            if (!setters.ContainsKey(parameterName))
+            if (!Setters.ContainsKey(parameterName))
             {
                 throw new NotSupportedException(
                     string.Format(CultureInfo.InvariantCulture, "No property {0} found in {1}", parameterName,
-                                  impl != null ? impl.Name : "<impl>"));
+                                  Impl != null ? Impl.Name : "<impl>"));
             }
 
-            setters[parameterName].SetValue(filter, parameterValue, null);
-        }
-
-        public void AddSetter(PropertyInfo prop)
-        {
-            setters[prop.Name] = prop;
+            Setters[parameterName].SetValue(filter, parameterValue, null);
         }
 
         #endregion
