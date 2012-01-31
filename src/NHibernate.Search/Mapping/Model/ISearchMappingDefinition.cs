@@ -15,5 +15,6 @@ namespace NHibernate.Search.Mapping.Model
 		IFieldBridgeDefinition FieldBridge(Type type);
 		IList<IParameterDefinition> BridgeParameters(Type type);
 		IDocumentIdDefinition DocumentId(MemberInfo member);
+		IList<IFieldDefinition> FieldDefinitions(MemberInfo member);
 	}
 }

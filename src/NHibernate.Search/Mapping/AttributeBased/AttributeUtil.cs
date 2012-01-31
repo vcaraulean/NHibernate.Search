@@ -36,20 +36,6 @@ namespace NHibernate.Search.Mapping.AttributeBased
             return (T[])member.GetCustomAttributes(typeof(T), inherit);
         }
 
-        public static FieldAttribute[] GetFields(MemberInfo member)
-        {
-            FieldAttribute[] attribs = GetAttributes<FieldAttribute>(member);
-            if (attribs != null)
-            {
-                foreach (FieldAttribute attribute in attribs)
-                {
-                    attribute.Name = attribute.Name ?? member.Name;
-                }
-            }
-
-            return attribs;
-        }
-
         public static FieldBridgeAttribute GetFieldBridge(ICustomAttributeProvider member)
         {
             FieldBridgeAttribute fieldBridge = GetAttribute<FieldBridgeAttribute>(member);

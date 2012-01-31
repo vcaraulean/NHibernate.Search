@@ -168,15 +168,16 @@ namespace NHibernate.Search.Mapping.AttributeBased
                     });
                 }
             }
-            
-            var fieldAttributes = AttributeUtil.GetFields(member);
-            if (fieldAttributes.Length > 0)
+
+			var fieldDefinitions = mappingDefinition.FieldDefinitions(member);
+            if (fieldDefinitions.Count > 0)
             {
                 if (bridge == null)
                     bridge = GetFieldBridge(member);
 
-                foreach (var fieldAttribute in fieldAttributes)
+                foreach (var fieldAttribute in fieldDefinitions)
                 {
+					fieldAttribute.Name = fieldAttribute.Name ?? member.Name;
                     var fieldAnalyzer = GetAnalyzerByType(fieldAttribute.Analyzer) ?? analyzer;
                     var field = new FieldMapping(
                         GetAttributeName(member, fieldAttribute.Name),

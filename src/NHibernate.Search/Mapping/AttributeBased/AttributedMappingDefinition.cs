@@ -47,6 +47,11 @@ namespace NHibernate.Search.Mapping.AttributeBased
 			return AttributeUtil.GetAttribute<DocumentIdAttribute>(member);
 		}
 
+		public IList<IFieldDefinition> FieldDefinitions(MemberInfo member)
+		{
+			return AttributeUtil.GetAttributes<FieldAttribute>(member);
+		}
+
 		private FilterDef CreateFilterDefinition(FullTextFilterDefAttribute att)
 		{
 			try
