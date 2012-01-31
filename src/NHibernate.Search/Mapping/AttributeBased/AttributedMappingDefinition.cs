@@ -31,6 +31,16 @@ namespace NHibernate.Search.Mapping.AttributeBased
 			return AttributeUtil.GetAttributes<ClassBridgeAttribute>(type);
 		}
 
+		public IFieldBridgeDefinition FieldBridge(Type type)
+		{
+			return AttributeUtil.GetAttribute<FieldBridgeAttribute>(type);
+		}
+
+		public IList<IParameterDefinition> BridgeParameters(Type type)
+		{
+			return AttributeUtil.GetAttributes<ParameterAttribute>(type);
+		}
+
 		private FilterDef CreateFilterDefinition(FullTextFilterDefAttribute att)
 		{
 			try

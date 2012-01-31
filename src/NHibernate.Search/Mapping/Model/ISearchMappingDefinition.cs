@@ -11,6 +11,7 @@ namespace NHibernate.Search.Mapping.Model
 		IIndexedDefinition IndexedDefinition(Type type);
 		IList<FilterDef> FullTextFilters(Type type);
 		IList<IClassBridgeDefinition> ClassBridges(Type type);
-
+		IFieldBridgeDefinition FieldBridge(Type type);
+		IList<IParameterDefinition> BridgeParameters(Type type);
 	}
 }

@@ -1,13 +1,14 @@
 using System;
+using NHibernate.Search.Mapping.Definition;
 
 namespace NHibernate.Search.Attributes
 {
-    /// <summary>
+	/// <summary>
     /// Parameter (basically key/value pattern)
     /// </summary>
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
-    public class ParameterAttribute : Attribute
-    {
+    public class ParameterAttribute : Attribute, IParameterDefinition
+	{
         private readonly string name;
         private readonly object value;
         private string owner;
