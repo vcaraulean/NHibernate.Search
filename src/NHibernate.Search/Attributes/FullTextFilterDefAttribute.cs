@@ -1,4 +1,5 @@
 using System;
+using NHibernate.Search.Mapping.Model;
 
 namespace NHibernate.Search.Attributes
 {
@@ -8,7 +9,7 @@ namespace NHibernate.Search.Attributes
     /// </summary>
     /// <remarks>We allow multiple instances of this attribute rather than having a FullTextFilterDefsAttribute as per Java</remarks>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class FullTextFilterDefAttribute : Attribute
+	public class FullTextFilterDefAttribute : Attribute, IFullTextFilterDefinition
     {
         private readonly string name;
         private readonly System.Type impl;

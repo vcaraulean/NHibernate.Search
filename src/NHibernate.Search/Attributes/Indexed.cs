@@ -1,9 +1,10 @@
 using System;
+using NHibernate.Search.Mapping.Model;
 
 namespace NHibernate.Search.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class IndexedAttribute : Attribute
+    public class IndexedAttribute : Attribute, IIndexedDefinition
     {
         private string index = string.Empty;
 

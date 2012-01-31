@@ -12,7 +12,7 @@ using NHibernate.Search.Bridge;
 using NHibernate.Search.Engine;
 using NHibernate.Search.Impl;
 using NHibernate.Search.Mapping.Definition;
-using NHibernate.Search.Util;
+using NHibernate.Search.Mapping.Model;
 
 namespace NHibernate.Search.Mapping.AttributeBased
 {
@@ -23,6 +23,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
 
         private int level;
         private int maxLevel = int.MaxValue;
+    	private readonly ISearchMappingDefinition mappingDefinition = new AttributedMappingDefinition(); 
 
         #region BuildContext class
         
@@ -34,7 +35,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
             }
 
             public DocumentMapping Root { get; set; }
-            public Iesi.Collections.Generic.ISet<System.Type> Processed { get; private set; }
+            public Iesi.Collections.Generic.ISet<Type> Processed { get; private set; }
         }
 
         #endregion
@@ -44,7 +45,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
             var documentMapping = new DocumentMapping(type)
             {
                 Boost = GetBoost(type),
-                IndexName = AttributeUtil.GetAttribute<IndexedAttribute>(type).Index
+                IndexName = mappingDefinition.IndexedDefinition(type).Index
             };
 
             var context = new BuildContext
@@ -61,19 +62,19 @@ namespace NHibernate.Search.Mapping.AttributeBased
 
         private void BuildFilterDefinitions(DocumentMapping classMapping)
         {
-            foreach (var defAttribute in AttributeUtil.GetAttributes<FullTextFilterDefAttribute>(classMapping.MappedClass, false))
+            foreach (var defAttribute in mappingDefinition.FullTextFilters(classMapping.MappedClass))
             {
                 classMapping.FullTextFilterDefinitions.Add(BuildFilterDef(defAttribute));
             }
         }
 
-        private FilterDef BuildFilterDef(FullTextFilterDefAttribute attribute)
+        private FilterDef BuildFilterDef(IFullTextFilterDefinition def)
         {
             var filterDef = new FilterDef
             {
-                Name = attribute.Name,
-                Impl = attribute.Impl,
-                Cache = attribute.Cache
+                Name = def.Name,
+                Impl = def.Impl,
+                Cache = def.Cache
             };
 
             try {
