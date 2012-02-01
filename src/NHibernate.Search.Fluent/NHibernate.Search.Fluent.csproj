@@ -54,8 +54,10 @@
     <Compile Include="Cfg\FluentSearchIndexingStrategyConfiguration.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Cfg\FluentSearch.cs" />
+    <Compile Include="Mapping\IDocumentMappingProvider.cs" />
     <Compile Include="Mapping\Parts\AnalyzerPart.cs" />
     <Compile Include="Mapping\Parts\IHasAnalyzer.cs" />
+    <Compile Include="Mapping\SearchMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -72,6 +72,7 @@
     <Compile Include="FluentSearchTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BootstrappingNHibernateInfrastructureTest.cs" />
+    <Compile Include="Mapping\SearchMappingTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHibernate.Search.Fluent\NHibernate.Search.Fluent.csproj">
