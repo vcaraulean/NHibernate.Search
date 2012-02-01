@@ -1,3 +1,4 @@
+using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 using NUnit.Framework;
 
@@ -13,7 +14,7 @@ namespace NHibernate.Search.Fluent.Tests
 	{
 		public EntityMap()
 		{
-			Id(x => x.Id);
+			Id(x => x.Id, mapper => mapper.Generator(Generators.Identity));
 			Property(x => x.Name);
 		}
 	}

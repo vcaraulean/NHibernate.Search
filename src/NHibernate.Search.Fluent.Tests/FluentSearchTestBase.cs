@@ -4,6 +4,7 @@ using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Driver;
 using NHibernate.Mapping.ByCode;
+using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework;
 
 namespace NHibernate.Search.Fluent.Tests
@@ -38,6 +39,9 @@ namespace NHibernate.Search.Fluent.Tests
 			sessionFactory = configuration.BuildSessionFactory();
 			
 			Session = sessionFactory.OpenSession();
+			
+			new SchemaExport(configuration)
+				.Execute(false, true, false, Session.Connection, null);
 		}
 
 		[TearDown]
