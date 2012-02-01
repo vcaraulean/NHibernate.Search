@@ -62,6 +62,16 @@ namespace NHibernate.Search.Mapping.AttributeBased
 			return AttributeUtil.HasAttribute<ContainedInAttribute>(member);
 		}
 
+		public IDateBridgeDefinition DateBridge(MemberInfo member)
+		{
+			return AttributeUtil.GetAttribute<DateBridgeAttribute>(member);
+		}
+
+		public IAnalyzerDefinition Analyzer(ICustomAttributeProvider member)
+		{
+			return AttributeUtil.GetAttribute<AnalyzerAttribute>(member);
+		}
+
 		public bool HasFieldBridge(Type type)
 		{
 			return AttributeUtil.HasAttribute<FieldBridgeAttribute>(type);

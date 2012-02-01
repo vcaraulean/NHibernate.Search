@@ -91,6 +91,7 @@
     <Compile Include="Attributes\Store.cs" />
     <Compile Include="Backend\ParameterSet.cs" />
     <Compile Include="Mapping\AttributeBased\AttributedMappingDefinition.cs" />
+    <Compile Include="Mapping\Definition\IAnalyzerDefinition.cs" />
     <Compile Include="Mapping\Definition\IContainedInDefinition.cs" />
     <Compile Include="Mapping\Definition\IDocumentIdDefinition.cs" />
     <Compile Include="Mapping\Definition\IFieldDefinition.cs" />

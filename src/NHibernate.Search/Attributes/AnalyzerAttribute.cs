@@ -1,8 +1,9 @@
 using System;
+using NHibernate.Search.Mapping.Definition;
 
 namespace NHibernate.Search.Attributes
 {
-    /// <summary>
+	/// <summary>
     /// Defines an analyzer for a given entity, method or field.
     /// The order of precedence is
     /// - FieldAttribute
@@ -11,8 +12,8 @@ namespace NHibernate.Search.Attributes
     /// - default
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
-    public class AnalyzerAttribute : Attribute
-    {
+    public class AnalyzerAttribute : Attribute, IAnalyzerDefinition
+	{
         private readonly System.Type type;
 
         public AnalyzerAttribute(System.Type value)

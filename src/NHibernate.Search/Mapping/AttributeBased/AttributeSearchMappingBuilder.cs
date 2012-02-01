@@ -291,7 +291,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
             return BridgeFactory.GuessType(
                 member.Name, memberType,
 				GetFieldBridgeDefinition(member),
-                AttributeUtil.GetAttribute<DateBridgeAttribute>(member)
+                mappingDefinition.DateBridge(member)
             );
         }
 
@@ -339,16 +339,16 @@ namespace NHibernate.Search.Mapping.AttributeBased
 
         private Analyzer GetAnalyzer(MemberInfo member)
         {
-            var attribute = AttributeUtil.GetAttribute<AnalyzerAttribute>(member);
-            if (attribute == null)
+            var analyzer = mappingDefinition.Analyzer(member);
+            if (analyzer == null)
                 return null;
 
-            if (!typeof(Analyzer).IsAssignableFrom(attribute.Type))
+            if (!typeof(Analyzer).IsAssignableFrom(analyzer.Type))
             {
-                throw new SearchException("Lucene analyzer not implemented by " + attribute.Type.FullName);
+                throw new SearchException("Lucene analyzer not implemented by " + analyzer.Type.FullName);
             }
 
-            return GetAnalyzerByType(attribute.Type);
+            return GetAnalyzerByType(analyzer.Type);
         }
 
         private Analyzer GetAnalyzerByType(Type analyzerType)

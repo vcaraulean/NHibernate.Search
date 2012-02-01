@@ -20,6 +20,8 @@ namespace NHibernate.Search.Mapping.Model
 		IList<IFieldDefinition> FieldDefinitions(MemberInfo member);
 		IIndexedEmbeddedDefinition IndexedEmbedded(MemberInfo member);
 		bool HasContainedInDefinition(MemberInfo member);
+		IDateBridgeDefinition DateBridge(MemberInfo member);
+		IAnalyzerDefinition Analyzer(ICustomAttributeProvider member);
 
 		// TODO: review
 		// FieldBridgeAttribute is applicable only to properties & fields
