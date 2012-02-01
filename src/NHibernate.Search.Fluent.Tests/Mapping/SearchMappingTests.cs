@@ -33,7 +33,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping
 			CollectionAssert.IsNotEmpty(mapping.Build(new Configuration()));
 		}
 
-		private class SearchMapping_AssemblyContaining : SearchMapping
+		private class SearchMapping_AssemblyContaining : FluentSearchMapping
 		{
 			protected override void Configure()
 			{
@@ -41,7 +41,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping
 			}
 		}
 
-		private class SearchMapping_Assembly : SearchMapping
+		private class SearchMapping_Assembly : FluentSearchMapping
 		{
 			protected override void Configure()
 			{
@@ -49,7 +49,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping
 			}
 		}
 
-		private class SearchMapping_AddedExplicitly : SearchMapping
+		private class SearchMapping_AddedExplicitly : FluentSearchMapping
 		{
 			protected override void Configure()
 			{

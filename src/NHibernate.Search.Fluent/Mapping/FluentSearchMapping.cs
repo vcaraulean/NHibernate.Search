@@ -9,13 +9,13 @@ namespace NHibernate.Search.Fluent.Mapping
 {
 	using Type = System.Type;
 
-	public abstract class SearchMapping : ISearchMapping
+	public abstract class FluentSearchMapping : ISearchMapping
 	{
 		private readonly IList<Assembly> assemblies;
 		private readonly IList<Type> explicitProviders;
 		private bool assert;
-
-		protected SearchMapping()
+		
+		protected FluentSearchMapping()
 		{
 			assemblies = new List<Assembly>();
 			explicitProviders = new List<Type>();
@@ -24,6 +24,8 @@ namespace NHibernate.Search.Fluent.Mapping
 		public ICollection<DocumentMapping> Build(Configuration cfg)
 		{
 			Configure();
+
+			var builder = new FluentSearchMappingBuilder();
 
 			var mappings = GetMappingProviders().Select(provider =>
 			{
