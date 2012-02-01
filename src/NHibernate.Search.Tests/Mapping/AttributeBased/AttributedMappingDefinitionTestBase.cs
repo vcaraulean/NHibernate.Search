@@ -13,9 +13,6 @@ namespace NHibernate.Search.Tests.Mapping.AttributeBased
 		public void SetUp()
 		{
 			mappingDefinition = new AttributedMappingDefinition();
-			When();
 		}
-
-		protected virtual void When() { }
 	}
 }

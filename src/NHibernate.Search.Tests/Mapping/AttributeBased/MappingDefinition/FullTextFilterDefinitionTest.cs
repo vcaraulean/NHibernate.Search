@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Linq;
 using NHibernate.Search.Attributes;
-using NHibernate.Search.Engine;
 using NHibernate.Search.Impl;
 using NUnit.Framework;
 
