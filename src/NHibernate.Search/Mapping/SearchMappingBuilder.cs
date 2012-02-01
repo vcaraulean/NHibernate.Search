@@ -46,7 +46,7 @@ namespace NHibernate.Search.Mapping
 			var documentMapping = new DocumentMapping(type)
 			{
 				Boost = GetBoost(type),
-				IndexName = mappingDefinition.IndexedDefinition(type).Index
+				IndexName = mappingDefinition.Indexed(type).Index
 			};
 
 			var context = new BuildContext
@@ -69,13 +69,10 @@ namespace NHibernate.Search.Mapping
 			}
 		}
 
-		private void BuildClass(
-			DocumentMapping documentMapping, bool isRoot,
-			string path, BuildContext context
-			)
+		private void BuildClass(DocumentMapping documentMapping, bool isRoot, string path, BuildContext context)
 		{
 			IList<System.Type> hierarchy = new List<System.Type>();
-			System.Type currClass = documentMapping.MappedClass;
+			var currClass = documentMapping.MappedClass;
 
 			do
 			{
@@ -161,8 +158,7 @@ namespace NHibernate.Search.Mapping
 					// Components should index their document id
 					documentMapping.Fields.Add(new FieldMapping(
 					                           	GetFieldName(member, documentIdName),
-					                           	bridge, getter
-					                           	)
+					                           	bridge, getter)
 					{
 						Store = Attributes.Store.Yes,
 						Index = Attributes.Index.UnTokenized,

@@ -13,7 +13,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
 
 	public class AttributedMappingDefinition : ISearchMappingDefinition
 	{
-		public IIndexedDefinition IndexedDefinition(Type type)
+		public IIndexedDefinition Indexed(Type type)
 		{
 			return AttributeUtil.GetAttribute<IndexedAttribute>(type);
 		}
