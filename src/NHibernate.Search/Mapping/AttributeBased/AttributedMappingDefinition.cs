@@ -37,7 +37,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
 			return AttributeUtil.GetAttribute<FieldBridgeAttribute>(member);
 		}
 
-		public IList<IParameterDefinition> BridgeParameters(ICustomAttributeProvider member)
+		public IEnumerable<IParameterDefinition> BridgeParameters(ICustomAttributeProvider member)
 		{
 			return AttributeUtil.GetAttributes<ParameterAttribute>(member);
 		}
@@ -70,6 +70,11 @@ namespace NHibernate.Search.Mapping.AttributeBased
 		public IAnalyzerDefinition Analyzer(ICustomAttributeProvider member)
 		{
 			return AttributeUtil.GetAttribute<AnalyzerAttribute>(member);
+		}
+
+		public IBoostDefinition Boost(ICustomAttributeProvider member)
+		{
+			return AttributeUtil.GetAttribute<BoostAttribute>(member);
 		}
 
 		public bool HasFieldBridge(Type type)

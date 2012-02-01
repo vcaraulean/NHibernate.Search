@@ -15,13 +15,14 @@ namespace NHibernate.Search.Mapping.Model
 		// Parameter should be a Type, not ICustomAttribute provider
 		IList<IClassBridgeDefinition> ClassBridges(ICustomAttributeProvider type);
 		IFieldBridgeDefinition FieldBridge(MemberInfo member);
-		IList<IParameterDefinition> BridgeParameters(ICustomAttributeProvider member);
+		IEnumerable<IParameterDefinition> BridgeParameters(ICustomAttributeProvider member);
 		IDocumentIdDefinition DocumentId(MemberInfo member);
 		IList<IFieldDefinition> FieldDefinitions(MemberInfo member);
 		IIndexedEmbeddedDefinition IndexedEmbedded(MemberInfo member);
 		bool HasContainedInDefinition(MemberInfo member);
 		IDateBridgeDefinition DateBridge(MemberInfo member);
 		IAnalyzerDefinition Analyzer(ICustomAttributeProvider member);
+		IBoostDefinition Boost(ICustomAttributeProvider member);
 
 		// TODO: review
 		// FieldBridgeAttribute is applicable only to properties & fields

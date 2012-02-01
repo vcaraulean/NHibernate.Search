@@ -9,7 +9,6 @@ using Iesi.Collections.Generic;
 
 using Lucene.Net.Analysis;
 using NHibernate.Properties;
-using NHibernate.Search.Attributes;
 using NHibernate.Search.Bridge;
 using NHibernate.Search.Impl;
 using NHibernate.Search.Mapping.Definition;
@@ -63,9 +62,9 @@ namespace NHibernate.Search.Mapping.AttributeBased
 
         private void BuildFilterDefinitions(DocumentMapping classMapping)
         {
-            foreach (var defAttribute in mappingDefinition.FullTextFilters(classMapping.MappedClass))
+            foreach (var filterDef in mappingDefinition.FullTextFilters(classMapping.MappedClass))
             {
-                classMapping.FullTextFilterDefinitions.Add(defAttribute);
+                classMapping.FullTextFilterDefinitions.Add(filterDef);
             }
         }
 
@@ -97,13 +96,13 @@ namespace NHibernate.Search.Mapping.AttributeBased
                 var analyzer = documentMapping.Analyzer ?? localAnalyzer;
 
                 // Check for any ClassBridges
-                var classBridgeAttributes = mappingDefinition.ClassBridges(currClass);
-                GetClassBridgeParameters(currClass, classBridgeAttributes);
+                var classBridges = mappingDefinition.ClassBridges(currClass);
+                GetClassBridgeParameters(currClass, classBridges);
 
                 // Now we can process the class bridges
-                foreach (var classBridgeAttribute in classBridgeAttributes)
+                foreach (var classBridge in classBridges)
                 {
-                    var bridge = BuildClassBridge(classBridgeAttribute, analyzer);
+                    var bridge = BuildClassBridge(classBridge, analyzer);
                     documentMapping.ClassBridges.Add(bridge);
                 }
 
@@ -159,7 +158,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
                 {
                     // Components should index their document id
                     documentMapping.Fields.Add(new FieldMapping(
-                        GetAttributeName(member, documentIdName),
+                        GetFieldName(member, documentIdName),
                         bridge, getter
                     )
                     {
@@ -176,16 +175,16 @@ namespace NHibernate.Search.Mapping.AttributeBased
                 if (bridge == null)
                     bridge = GetFieldBridge(member);
 
-                foreach (var fieldAttribute in fieldDefinitions)
+                foreach (var fieldDefinition in fieldDefinitions)
                 {
-					fieldAttribute.Name = fieldAttribute.Name ?? member.Name;
-                    var fieldAnalyzer = GetAnalyzerByType(fieldAttribute.Analyzer) ?? analyzer;
+					fieldDefinition.Name = fieldDefinition.Name ?? member.Name;
+                    var fieldAnalyzer = GetAnalyzerByType(fieldDefinition.Analyzer) ?? analyzer;
                     var field = new FieldMapping(
-                        GetAttributeName(member, fieldAttribute.Name),
+                        GetFieldName(member, fieldDefinition.Name),
                         bridge, getter
                     ) {
-                        Store = fieldAttribute.Store,
-                        Index = fieldAttribute.Index,
+                        Store = fieldDefinition.Store,
+                        Index = fieldDefinition.Index,
                         Analyzer = fieldAnalyzer
                     };
 
@@ -261,12 +260,12 @@ namespace NHibernate.Search.Mapping.AttributeBased
         }
 
         /// <summary>
-        /// Get the attribute name out of the member unless overridden by name
+        /// Get the field name out of the member unless overridden by name
         /// </summary>
         /// <param name="member"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        private string GetAttributeName(MemberInfo member, string name)
+        private string GetFieldName(MemberInfo member, string name)
         {
             return !string.IsNullOrEmpty(name) ? name : member.Name;
         }
@@ -396,7 +395,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
             if (member == null)
                 return null;
 
-            var boost = AttributeUtil.GetAttribute<BoostAttribute>(member);
+            var boost = mappingDefinition.Boost(member);
             if (boost == null)
                 return null;
 
@@ -410,7 +409,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
 			bool fieldBridgeExists = mappingDefinition.HasFieldBridge(member);
 
 			// This is a bit inefficient, but the loops will be very small
-			IList<IParameterDefinition> parameters = mappingDefinition.BridgeParameters(member);
+			var parameters = mappingDefinition.BridgeParameters(member);
 
 			// Do it this way around so we can ensure we process all parameters
 			foreach (IParameterDefinition parameter in parameters)
