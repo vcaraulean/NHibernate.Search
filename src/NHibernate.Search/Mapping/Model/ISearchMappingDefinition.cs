@@ -11,12 +11,20 @@ namespace NHibernate.Search.Mapping.Model
 	{
 		IIndexedDefinition IndexedDefinition(Type type);
 		IList<FilterDef> FullTextFilters(Type type);
-		IList<IClassBridgeDefinition> ClassBridges(Type type);
-		IFieldBridgeDefinition FieldBridge(Type type);
-		IList<IParameterDefinition> BridgeParameters(Type type);
+		
+		// Parameter should be a Type, not ICustomAttribute provider
+		IList<IClassBridgeDefinition> ClassBridges(ICustomAttributeProvider type);
+		IFieldBridgeDefinition FieldBridge(MemberInfo member);
+		IList<IParameterDefinition> BridgeParameters(ICustomAttributeProvider member);
 		IDocumentIdDefinition DocumentId(MemberInfo member);
 		IList<IFieldDefinition> FieldDefinitions(MemberInfo member);
 		IIndexedEmbeddedDefinition IndexedEmbedded(MemberInfo member);
 		bool HasContainedInDefinition(MemberInfo member);
+
+		// TODO: review
+		// FieldBridgeAttribute is applicable only to properties & fields
+		// This method is used to look for this attribute on a type.
+		// Review usages...
+		bool HasFieldBridge(Type type);
 	}
 }

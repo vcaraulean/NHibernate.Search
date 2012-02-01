@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-
-using NHibernate.Search.Attributes;
 
 namespace NHibernate.Search.Mapping.AttributeBased
 {
@@ -34,38 +31,6 @@ namespace NHibernate.Search.Mapping.AttributeBased
             where T : class
         {
             return (T[])member.GetCustomAttributes(typeof(T), inherit);
-        }
-
-        public static FieldBridgeAttribute GetFieldBridge(ICustomAttributeProvider member)
-        {
-            FieldBridgeAttribute fieldBridge = GetAttribute<FieldBridgeAttribute>(member);
-            if (fieldBridge == null)
-            {
-                return null;
-            }
-
-            bool classBridges = GetAttributes<ClassBridgeAttribute>(member) != null;
-
-            // Ok, get all the parameters
-            IList<ParameterAttribute> parameters = GetParameters(member);
-            if (parameters != null)
-            {
-                foreach (ParameterAttribute parameter in parameters)
-                {
-                    // Ok, it's ours if there are no class bridges or no owner for the parameter
-                    if (!classBridges || string.IsNullOrEmpty(parameter.Owner))
-                    {
-                        fieldBridge.Parameters.Add(parameter.Name, parameter.Value);
-                    }
-                }
-            }
-
-            return fieldBridge;
-        }
-
-        public static IList<ParameterAttribute> GetParameters(ICustomAttributeProvider member)
-        {
-            return GetAttributes<ParameterAttribute>(member);
         }
     }
 }

@@ -27,19 +27,19 @@ namespace NHibernate.Search.Mapping.AttributeBased
 				.ToList();
 		}
 
-		public IList<IClassBridgeDefinition> ClassBridges(Type type)
+		public IList<IClassBridgeDefinition> ClassBridges(ICustomAttributeProvider type)
 		{
 			return AttributeUtil.GetAttributes<ClassBridgeAttribute>(type);
 		}
 
-		public IFieldBridgeDefinition FieldBridge(Type type)
+		public IFieldBridgeDefinition FieldBridge(MemberInfo member)
 		{
-			return AttributeUtil.GetAttribute<FieldBridgeAttribute>(type);
+			return AttributeUtil.GetAttribute<FieldBridgeAttribute>(member);
 		}
 
-		public IList<IParameterDefinition> BridgeParameters(Type type)
+		public IList<IParameterDefinition> BridgeParameters(ICustomAttributeProvider member)
 		{
-			return AttributeUtil.GetAttributes<ParameterAttribute>(type);
+			return AttributeUtil.GetAttributes<ParameterAttribute>(member);
 		}
 
 		public IDocumentIdDefinition DocumentId(MemberInfo member)
@@ -60,6 +60,11 @@ namespace NHibernate.Search.Mapping.AttributeBased
 		public bool HasContainedInDefinition(MemberInfo member)
 		{
 			return AttributeUtil.HasAttribute<ContainedInAttribute>(member);
+		}
+
+		public bool HasFieldBridge(Type type)
+		{
+			return AttributeUtil.HasAttribute<FieldBridgeAttribute>(type);
 		}
 
 		private FilterDef CreateFilterDefinition(FullTextFilterDefAttribute att)

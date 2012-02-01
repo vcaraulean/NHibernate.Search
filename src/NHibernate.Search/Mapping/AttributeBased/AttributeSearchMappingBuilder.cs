@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 
 using Iesi.Collections.Generic;
@@ -289,10 +290,40 @@ namespace NHibernate.Search.Mapping.AttributeBased
 
             return BridgeFactory.GuessType(
                 member.Name, memberType,
-                AttributeUtil.GetFieldBridge(member),
+				GetFieldBridgeDefinition(member),
                 AttributeUtil.GetAttribute<DateBridgeAttribute>(member)
             );
         }
+
+		public IFieldBridgeDefinition GetFieldBridgeDefinition(MemberInfo member)
+		{
+			var fieldBridge = mappingDefinition.FieldBridge(member);
+			if (fieldBridge == null)
+			{
+				return null;
+			}
+
+			// TODO: review - ClassBridgeAttribute is applicable only to a class/type level.
+			// Here it's checked for a property/field
+			// It's always false
+			bool classBridges = mappingDefinition.ClassBridges(member).Any(); 
+
+			// Ok, get all the parameters
+			var parameters = mappingDefinition.BridgeParameters(member);
+			if (parameters != null)
+			{
+				foreach (var parameter in parameters)
+				{
+					// Ok, it's ours if there are no class bridges or no owner for the parameter
+					if (!classBridges || string.IsNullOrEmpty(parameter.Owner))
+					{
+						fieldBridge.Parameters.Add(parameter.Name, parameter.Value);
+					}
+				}
+			}
+
+			return fieldBridge;
+		}
 
         private ClassBridgeMapping BuildClassBridge(IClassBridgeDefinition ann, Analyzer parentAnalyzer)
         {
@@ -375,7 +406,8 @@ namespace NHibernate.Search.Mapping.AttributeBased
     	private void GetClassBridgeParameters(Type member, IList<IClassBridgeDefinition> classBridges)
 		{
 			// Are we expecting any unnamed parameters?
-			bool fieldBridgeExists = mappingDefinition.FieldBridge(member) != null;
+			// TODO Review: why FieldBridge is checked for a type when it can be applied only to property & field?
+			bool fieldBridgeExists = mappingDefinition.HasFieldBridge(member);
 
 			// This is a bit inefficient, but the loops will be very small
 			IList<IParameterDefinition> parameters = mappingDefinition.BridgeParameters(member);
