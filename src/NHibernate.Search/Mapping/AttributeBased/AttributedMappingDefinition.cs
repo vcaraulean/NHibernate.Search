@@ -6,7 +6,6 @@ using NHibernate.Search.Attributes;
 using NHibernate.Search.Engine;
 using NHibernate.Search.Impl;
 using NHibernate.Search.Mapping.Definition;
-using NHibernate.Search.Mapping.Model;
 
 namespace NHibernate.Search.Mapping.AttributeBased
 {

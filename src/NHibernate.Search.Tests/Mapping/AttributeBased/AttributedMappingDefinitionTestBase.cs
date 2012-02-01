@@ -1,5 +1,5 @@
+using NHibernate.Search.Mapping;
 using NHibernate.Search.Mapping.AttributeBased;
-using NHibernate.Search.Mapping.Model;
 using NUnit.Framework;
 
 namespace NHibernate.Search.Tests.Mapping.AttributeBased

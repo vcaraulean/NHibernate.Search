@@ -4,7 +4,6 @@ using System.Reflection;
 using NHibernate.Search.Attributes;
 using NHibernate.Search.Engine;
 using NHibernate.Search.Impl;
-using NHibernate.Search.Mapping.Model;
 using NUnit.Framework;
 
 namespace NHibernate.Search.Tests.Mapping.AttributeBased.MappingDefinition

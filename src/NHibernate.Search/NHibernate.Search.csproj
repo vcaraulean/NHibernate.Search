@@ -100,7 +100,7 @@
     <Compile Include="Mapping\Definition\IIndexedEmbeddedDefinition.cs" />
     <Compile Include="Mapping\Definition\IParameterDefinition.cs" />
     <Compile Include="Mapping\Definition\IIndexedDefinition.cs" />
-    <Compile Include="Mapping\Model\ISearchMappingDefinition.cs" />
+    <Compile Include="Mapping\ISearchMappingDefinition.cs" />
     <Compile Include="Util\TypeDictionary.cs" />
     <Compile Include="Mapping\AttributeBased\AttributeSearchMappingBuilder.cs" />
     <Compile Include="Mapping\ClassBridgeMapping.cs" />
