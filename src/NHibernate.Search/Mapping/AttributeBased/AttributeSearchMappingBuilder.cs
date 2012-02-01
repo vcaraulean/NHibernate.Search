@@ -31,7 +31,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
         {
             public BuildContext()
             {
-                this.Processed = new HashedSet<Type>();
+                Processed = new HashedSet<Type>();
             }
 
             public DocumentMapping Root { get; set; }
@@ -73,8 +73,8 @@ namespace NHibernate.Search.Mapping.AttributeBased
             string path, BuildContext context
         )
         {
-            IList<System.Type> hierarchy = new List<System.Type>();
-            System.Type currClass = documentMapping.MappedClass;
+            IList<Type> hierarchy = new List<Type>();
+            Type currClass = documentMapping.MappedClass;
 
             do {
                 hierarchy.Add(currClass);
@@ -205,7 +205,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
                 maxLevel = potentialLevel > maxLevel ? maxLevel : potentialLevel;
                 level++;
 
-                System.Type elementType = embeddedDefinition.TargetElement ?? GetMemberTypeOrGenericArguments(member);
+                Type elementType = embeddedDefinition.TargetElement ?? GetMemberTypeOrGenericArguments(member);
 
                 var localPrefix = embeddedDefinition.Prefix == "." ? member.Name + "." : embeddedDefinition.Prefix;
 
@@ -294,7 +294,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
             );
         }
 
-		public IFieldBridgeDefinition GetFieldBridgeDefinition(MemberInfo member)
+    	private IFieldBridgeDefinition GetFieldBridgeDefinition(MemberInfo member)
 		{
 			var fieldBridge = mappingDefinition.FieldBridge(member);
 			if (fieldBridge == null)
@@ -364,7 +364,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
             }
         }
         
-        private static System.Type GetMemberTypeOrGenericArguments(MemberInfo member)
+        private static Type GetMemberTypeOrGenericArguments(MemberInfo member)
         {
             Type type = GetMemberType(member);
             if (type.IsGenericType)
@@ -386,7 +386,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
 
         private static Type GetMemberType(MemberInfo member)
         {
-            PropertyInfo info = member as PropertyInfo;
+            var info = member as PropertyInfo;
             return info != null ? info.PropertyType : ((FieldInfo)member).FieldType;
         }
 
