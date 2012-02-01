@@ -26,7 +26,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
 				.ToList();
 		}
 
-		public IList<IClassBridgeDefinition> ClassBridges(ICustomAttributeProvider type)
+		public IList<IClassBridgeDefinition> ClassBridges(Type type)
 		{
 			return AttributeUtil.GetAttributes<ClassBridgeAttribute>(type);
 		}
@@ -74,11 +74,6 @@ namespace NHibernate.Search.Mapping.AttributeBased
 		public IBoostDefinition Boost(ICustomAttributeProvider member)
 		{
 			return AttributeUtil.GetAttribute<BoostAttribute>(member);
-		}
-
-		public bool HasFieldBridge(Type type)
-		{
-			return AttributeUtil.HasAttribute<FieldBridgeAttribute>(type);
 		}
 
 		private FilterDef CreateFilterDefinition(FullTextFilterDefAttribute att)

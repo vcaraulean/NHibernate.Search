@@ -10,8 +10,7 @@ namespace NHibernate.Search.Mapping
 		IIndexedDefinition IndexedDefinition(System.Type type);
 		IList<FilterDef> FullTextFilters(System.Type type);
 		
-		// Parameter should be a Type, not ICustomAttribute provider
-		IList<IClassBridgeDefinition> ClassBridges(ICustomAttributeProvider type);
+		IList<IClassBridgeDefinition> ClassBridges(System.Type type);
 		IFieldBridgeDefinition FieldBridge(MemberInfo member);
 		IEnumerable<IParameterDefinition> BridgeParameters(ICustomAttributeProvider member);
 		IDocumentIdDefinition DocumentId(MemberInfo member);
@@ -21,11 +20,5 @@ namespace NHibernate.Search.Mapping
 		IDateBridgeDefinition DateBridge(MemberInfo member);
 		IAnalyzerDefinition Analyzer(ICustomAttributeProvider member);
 		IBoostDefinition Boost(ICustomAttributeProvider member);
-
-		// TODO: review
-		// FieldBridgeAttribute is applicable only to properties & fields
-		// This method is used to look for this attribute on a type.
-		// Review usages...
-		bool HasFieldBridge(System.Type type);
 	}
 }

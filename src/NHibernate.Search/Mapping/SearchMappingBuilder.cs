@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using Iesi.Collections.Generic;
 using Lucene.Net.Analysis;
@@ -308,11 +307,6 @@ namespace NHibernate.Search.Mapping
 				return null;
 			}
 
-			// TODO: review - ClassBridgeAttribute is applicable only to a class/type level.
-			// Here it's checked for a property/field
-			// It's always false
-			bool classBridges = mappingDefinition.ClassBridges(member).Any();
-
 			// Ok, get all the parameters
 			var parameters = mappingDefinition.BridgeParameters(member);
 			if (parameters != null)
@@ -320,7 +314,7 @@ namespace NHibernate.Search.Mapping
 				foreach (var parameter in parameters)
 				{
 					// Ok, it's ours if there are no class bridges or no owner for the parameter
-					if (!classBridges || string.IsNullOrEmpty(parameter.Owner))
+					if (string.IsNullOrEmpty(parameter.Owner))
 					{
 						fieldBridge.Parameters.Add(parameter.Name, parameter.Value);
 					}
@@ -412,10 +406,6 @@ namespace NHibernate.Search.Mapping
 
 		private void GetClassBridgeParameters(System.Type member, IList<IClassBridgeDefinition> classBridges)
 		{
-			// Are we expecting any unnamed parameters?
-			// TODO Review: why FieldBridge is checked for a type when it can be applied only to property & field?
-			bool fieldBridgeExists = mappingDefinition.HasFieldBridge(member);
-
 			// This is a bit inefficient, but the loops will be very small
 			var parameters = mappingDefinition.BridgeParameters(member);
 
@@ -428,21 +418,18 @@ namespace NHibernate.Search.Mapping
 				// 3. If there's > 1 class bridge and no field bridge, that's an error - we don't know which class bridge should get them
 				if (string.IsNullOrEmpty(parameter.Owner))
 				{
-					if (!fieldBridgeExists)
+					if (classBridges.Count == 1)
 					{
-						if (classBridges.Count == 1)
-						{
-							// Case 2
-							classBridges[0].Parameters.Add(parameter.Name, parameter.Value);
-						}
-						else
-						{
-							// Case 3
-							LogParameterError(
-								"Parameter needs a name when multiple bridges defined: {0}={1}, parameter={2}",
-								member,
-								parameter);
-						}
+						// Case 2
+						classBridges[0].Parameters.Add(parameter.Name, parameter.Value);
+					}
+					else
+					{
+						// Case 3
+						LogParameterError(
+							"Parameter needs a name when multiple bridges defined: {0}={1}, parameter={2}",
+							member,
+							parameter);
 					}
 				}
 				else
