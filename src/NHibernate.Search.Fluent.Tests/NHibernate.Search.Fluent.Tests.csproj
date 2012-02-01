@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cfg\FluentConfigurationTests.cs" />
     <Compile Include="FluentSearchTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BootstrappingNHibernateInfrastructureTest.cs" />
