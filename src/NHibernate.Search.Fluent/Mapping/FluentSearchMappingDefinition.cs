@@ -73,15 +73,17 @@ namespace NHibernate.Search.Fluent.Mapping
 
 		public IAnalyzerDefinition Analyzer(ICustomAttributeProvider member)
 		{
-			if (documentMap.AnalyzerType == null)
-				return null;
-			return new AnalyzerDefinition{Type = documentMap.AnalyzerType};
+			Type type;
+			if (documentMap.Analyzers.TryGetValue(member, out type))
+				return new AnalyzerDefinition { Type = type};
+			return null;
 		}
 
 		public IBoostDefinition Boost(ICustomAttributeProvider member)
 		{
-			if (documentMap.Boost.HasValue)
-				return new BoostDefinition{Value = documentMap.Boost.Value};
+			float? boost;
+			if (documentMap.BoostValues.TryGetValue(member, out boost))
+				return new BoostDefinition{Value = boost.Value};
 			return null;
 		}
 	}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using Lucene.Net.Analysis;
@@ -14,14 +15,21 @@ namespace NHibernate.Search.Fluent.Mapping
 		Type DocumentType { get; }
 		string Name { get; set; }
 		MemberInfo IdProperty { get; set; }
-		float? Boost { get; set; }
+		IDictionary<ICustomAttributeProvider, float?> BoostValues { get; }
+		IDictionary<ICustomAttributeProvider, Type> Analyzers { get; }
 	}
 
 	public abstract class DocumentMap<T> : IDocumentMap
 	{
+		private readonly IDictionary<ICustomAttributeProvider, float?> boostValues;
+		private readonly IDictionary<ICustomAttributeProvider, Type> analyzers;
+
 		protected DocumentMap()
 		{
 			Name(typeof (T).Name);
+
+			boostValues = new Dictionary<ICustomAttributeProvider, float?>();
+			analyzers = new Dictionary<ICustomAttributeProvider, Type>();
 		}
 
 		Type IDocumentMap.DocumentType
@@ -31,8 +39,27 @@ namespace NHibernate.Search.Fluent.Mapping
 
 		string IDocumentMap.Name { get; set; }
 		MemberInfo IDocumentMap.IdProperty { get; set; }
-		float? IDocumentMap.Boost { get; set; }
-		Type IHasAnalyzer.AnalyzerType { get; set; }
+
+		IDictionary<ICustomAttributeProvider, float?> IDocumentMap.BoostValues
+		{
+			get { return boostValues; }
+		}
+
+		IDictionary<ICustomAttributeProvider, Type> IDocumentMap.Analyzers
+		{
+			get { return analyzers; }
+		}
+
+		Type IHasAnalyzer.AnalyzerType
+		{
+			get
+			{
+				Type type;
+				analyzers.TryGetValue(typeof(T), out type);
+				return type;
+			}
+			set { analyzers[typeof(T)] = value; }
+		}
 
 		/// <summary>
 		/// Defines the Lucene.NET Index Name.
@@ -61,7 +88,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		/// <param name="boost"></param>
 		protected void Boost(float boost)
 		{
-			(this as IDocumentMap).Boost = boost;
+			boostValues[typeof(T)] = boost;
 		}
 
 		/// <summary>
