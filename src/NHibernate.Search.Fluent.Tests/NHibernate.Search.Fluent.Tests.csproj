@@ -70,7 +70,9 @@
   <ItemGroup>
     <Compile Include="Cfg\FluentConfigurationTests.cs" />
     <Compile Include="FluentSearchTestBase.cs" />
-    <Compile Include="Mapping\IndexedPropertyMappingTest.cs" />
+    <Compile Include="Mapping\FluentMappings\IdPropertyMappingTest.cs" />
+    <Compile Include="Mapping\FluentMappings\IndexedPropertyMappingTest.cs" />
+    <Compile Include="Mapping\FluentMappings\PropertyMappingTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BootstrappingNHibernateInfrastructureTest.cs" />
     <Compile Include="Mapping\SearchMappingTests.cs" />

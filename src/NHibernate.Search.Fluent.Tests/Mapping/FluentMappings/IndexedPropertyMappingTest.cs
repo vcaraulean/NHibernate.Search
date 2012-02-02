@@ -1,17 +1,15 @@
 ﻿using NHibernate.Search.Fluent.Mapping;
 using NUnit.Framework;
 
-namespace NHibernate.Search.Fluent.Tests.Mapping
+namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 {
 	[TestFixture]
-	public class IndexedPropertyMappingTest
+	public class IndexedPropertyMappingTest : PropertyMappingTest
 	{
 		[Test]
 		public void Should_set_index()
 		{
-			var builder = new FluentSearchMappingBuilder(new DocMapping());
-			var mapping = builder.Build(typeof (DocMapping));
-			Assert.AreEqual("docIndex", mapping.IndexName);
+			Assert.AreEqual("docIndex", CreateDocumentMapping<DocMapping>().IndexName);
 		}
 
 		class Doc{ }

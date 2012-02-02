@@ -41,6 +41,8 @@ namespace NHibernate.Search.Fluent.Mapping
 
 		public IDocumentIdDefinition DocumentId(MemberInfo member)
 		{
+			if (member == documentMap.IdProperty)
+				return new DocumentIdDefinition{Name = documentMap.IdProperty.Name};
 			return null;
 		}
 

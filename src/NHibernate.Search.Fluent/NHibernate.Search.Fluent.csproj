@@ -54,6 +54,8 @@
     <Compile Include="Cfg\FluentSearchIndexingStrategyConfiguration.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Cfg\FluentSearch.cs" />
+    <Compile Include="Exceptions\FluentMappingException.cs" />
+    <Compile Include="Mapping\Definitions\DocumentIdDefinition.cs" />
     <Compile Include="Mapping\Definitions\IndexedDefinition.cs" />
     <Compile Include="Mapping\DocumentMap.cs" />
     <Compile Include="Mapping\FluentSearchMappingBuilder.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Mapping\Parts\IHasAnalyzer.cs" />
     <Compile Include="Mapping\FluentSearchMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHibernate.Search\NHibernate.Search.csproj">
