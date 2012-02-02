@@ -54,6 +54,8 @@
     <Compile Include="Cfg\FluentSearchIndexingStrategyConfiguration.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Cfg\FluentSearch.cs" />
+    <Compile Include="Mapping\Definitions\IndexedDefinition.cs" />
+    <Compile Include="Mapping\DocumentMap.cs" />
     <Compile Include="Mapping\FluentSearchMappingBuilder.cs" />
     <Compile Include="Mapping\FluentSearchMappingDefinition.cs" />
     <Compile Include="Mapping\IDocumentMappingProvider.cs" />

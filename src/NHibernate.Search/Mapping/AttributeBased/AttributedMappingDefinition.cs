@@ -38,7 +38,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
 
 		public IEnumerable<IParameterDefinition> BridgeParameters(ICustomAttributeProvider member)
 		{
-			return AttributeUtil.GetAttributes<ParameterAttribute>(member);
+			return AttributeUtil.GetAttributes<ParameterAttribute>(member) ?? Enumerable.Empty<IParameterDefinition>();
 		}
 
 		public IDocumentIdDefinition DocumentId(MemberInfo member)

@@ -305,15 +305,12 @@ namespace NHibernate.Search.Mapping
 
 			// Ok, get all the parameters
 			var parameters = mappingDefinition.BridgeParameters(member);
-			if (parameters != null)
+			foreach (var parameter in parameters)
 			{
-				foreach (var parameter in parameters)
+				// Ok, it's ours if there are no class bridges or no owner for the parameter
+				if (string.IsNullOrEmpty(parameter.Owner))
 				{
-					// Ok, it's ours if there are no class bridges or no owner for the parameter
-					if (string.IsNullOrEmpty(parameter.Owner))
-					{
-						fieldBridge.Parameters.Add(parameter.Name, parameter.Value);
-					}
+					fieldBridge.Parameters.Add(parameter.Name, parameter.Value);
 				}
 			}
 

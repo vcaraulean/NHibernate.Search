@@ -1,7 +1,6 @@
-﻿using System.Reflection;
-using NHibernate.Cfg;
+﻿using System.Linq;
+using System.Reflection;
 using NHibernate.Search.Fluent.Mapping;
-using NHibernate.Search.Mapping;
 using NUnit.Framework;
 
 namespace NHibernate.Search.Fluent.Tests.Mapping
@@ -14,7 +13,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping
 		{
 			var mapping = new SearchMapping_AssemblyContaining();
 
-			CollectionAssert.IsNotEmpty(mapping.Build(new Configuration()));
+			CollectionAssert.IsNotEmpty(mapping.GetMappingDocuments().ToList());
 		}
 
 		[Test]
@@ -22,7 +21,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping
 		{
 			var mapping = new SearchMapping_Assembly();
 
-			CollectionAssert.IsNotEmpty(mapping.Build(new Configuration()));
+			CollectionAssert.IsNotEmpty(mapping.GetMappingDocuments());
 		}
 
 		[Test]
@@ -30,11 +29,16 @@ namespace NHibernate.Search.Fluent.Tests.Mapping
 		{
 			var mapping = new SearchMapping_AddedExplicitly();
 
-			CollectionAssert.IsNotEmpty(mapping.Build(new Configuration()));
+			CollectionAssert.IsNotEmpty(mapping.GetMappingDocuments());
 		}
 
 		private class SearchMapping_AssemblyContaining : FluentSearchMapping
 		{
+			public SearchMapping_AssemblyContaining()
+			{
+				Configure();
+			}
+
 			protected override void Configure()
 			{
 				AddAssemblyContaining<SearchMapping_AssemblyContaining>();
@@ -43,6 +47,11 @@ namespace NHibernate.Search.Fluent.Tests.Mapping
 
 		private class SearchMapping_Assembly : FluentSearchMapping
 		{
+			public SearchMapping_Assembly()
+			{
+				Configure();
+			}
+
 			protected override void Configure()
 			{
 				AddAssembly(Assembly.GetExecutingAssembly());
@@ -51,22 +60,17 @@ namespace NHibernate.Search.Fluent.Tests.Mapping
 
 		private class SearchMapping_AddedExplicitly : FluentSearchMapping
 		{
+			public SearchMapping_AddedExplicitly()
+			{
+				Configure();
+			}
+
 			protected override void Configure()
 			{
-				Add<DummyDocumentMappingProvider>();
+				Add<DummyDocumentMap>();
 			}
 		}
 
-		private class DummyDocumentMappingProvider : IDocumentMappingProvider
-		{
-			public DocumentMapping GetMapping()
-			{
-				return new DocumentMapping(typeof (object));
-			}
-
-			public void AssertIsValid()
-			{
-			}
-		}
+		public class DummyDocumentMap : DocumentMap<object> { }
 	}
 }

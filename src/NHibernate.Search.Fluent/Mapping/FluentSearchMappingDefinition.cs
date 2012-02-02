@@ -1,71 +1,82 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using NHibernate.Search.Engine;
+using NHibernate.Search.Fluent.Mapping.Definitions;
 using NHibernate.Search.Mapping;
 using NHibernate.Search.Mapping.Definition;
 
 namespace NHibernate.Search.Fluent.Mapping
 {
+	using Type = System.Type;
+
 	public class FluentSearchMappingDefinition : ISearchMappingDefinition
 	{
-		public IIndexedDefinition Indexed(System.Type type)
+		private readonly IDocumentMap documentMap;
+
+		public FluentSearchMappingDefinition(IDocumentMap documentMap)
 		{
-			throw new System.NotImplementedException();
+			this.documentMap = documentMap;
 		}
 
-		public IList<FilterDef> FullTextFilters(System.Type type)
+		public IIndexedDefinition Indexed(Type type)
 		{
-			throw new System.NotImplementedException();
+			return new IndexedDefinition{Index = documentMap.Name};
 		}
 
-		public IList<IClassBridgeDefinition> ClassBridges(System.Type type)
+		public IList<FilterDef> FullTextFilters(Type type)
 		{
-			throw new System.NotImplementedException();
+			return new List<FilterDef>();
+		}
+
+		public IList<IClassBridgeDefinition> ClassBridges(Type type)
+		{
+			return new List<IClassBridgeDefinition>();
 		}
 
 		public IFieldBridgeDefinition FieldBridge(MemberInfo member)
 		{
-			throw new System.NotImplementedException();
+			return null;
 		}
 
 		public IDocumentIdDefinition DocumentId(MemberInfo member)
 		{
-			throw new System.NotImplementedException();
+			return null;
 		}
 
 		public IList<IFieldDefinition> FieldDefinitions(MemberInfo member)
 		{
-			throw new System.NotImplementedException();
+			return new List<IFieldDefinition>();
 		}
 
 		public IIndexedEmbeddedDefinition IndexedEmbedded(MemberInfo member)
 		{
-			throw new System.NotImplementedException();
+			return null;
 		}
 
 		public bool HasContainedInDefinition(MemberInfo member)
 		{
-			throw new System.NotImplementedException();
+			return false;
 		}
 
 		public IDateBridgeDefinition DateBridge(MemberInfo member)
 		{
-			throw new System.NotImplementedException();
+			return null;
 		}
 
 		public IEnumerable<IParameterDefinition> BridgeParameters(ICustomAttributeProvider member)
 		{
-			throw new System.NotImplementedException();
+			return Enumerable.Empty<IParameterDefinition>();
 		}
 
 		public IAnalyzerDefinition Analyzer(ICustomAttributeProvider member)
 		{
-			throw new System.NotImplementedException();
+			return null;
 		}
 
 		public IBoostDefinition Boost(ICustomAttributeProvider member)
 		{
-			throw new System.NotImplementedException();
+			return null;
 		}
 	}
 }

@@ -25,13 +25,12 @@ namespace NHibernate.Search.Fluent.Mapping
 		{
 			Configure();
 
-			var builder = new FluentSearchMappingBuilder();
-
-			var mappings = GetMappingProviders().Select(provider =>
+			var mappings = GetMappingDocuments().Select(provider =>
 			{
-				if (assert)
-					provider.AssertIsValid();
-				return provider.GetMapping();
+				//if (assert)
+				//    provider.AssertIsValid();
+				var builder = new FluentSearchMappingBuilder(provider);
+				return builder.Build(provider.DocumentType);
 			});
 
 			return mappings.ToList();
@@ -39,9 +38,9 @@ namespace NHibernate.Search.Fluent.Mapping
 
 		protected abstract void Configure();
 
-		private IEnumerable<IDocumentMappingProvider> GetMappingProviders()
+		public IEnumerable<IDocumentMap> GetMappingDocuments()
 		{
-			var mappingProviderType = typeof (IDocumentMappingProvider);
+			var mappingProviderType = typeof (IDocumentMap);
 
 			var types = assemblies
 				.SelectMany(a => a.GetTypes())
@@ -51,10 +50,10 @@ namespace NHibernate.Search.Fluent.Mapping
 				       mappingProviderType.IsAssignableFrom(t));
 
 			foreach (var type in types)
-				yield return Activator.CreateInstance(type) as IDocumentMappingProvider;
+				yield return Activator.CreateInstance(type) as IDocumentMap;
 
 			foreach (var type in explicitProviders)
-				yield return Activator.CreateInstance(type) as IDocumentMappingProvider;
+				yield return Activator.CreateInstance(type) as IDocumentMap;
 		}
 
 		protected void AddAssemblyContaining<T>()
@@ -71,9 +70,9 @@ namespace NHibernate.Search.Fluent.Mapping
 			AddAssembly(asm);
 		}
 
-		protected void Add<TDocumentMappingProvider>() where TDocumentMappingProvider : IDocumentMappingProvider
+		protected void Add<TDocumentMap>() where TDocumentMap : IDocumentMap
 		{
-			explicitProviders.Add(typeof (TDocumentMappingProvider));
+			explicitProviders.Add(typeof(TDocumentMap));
 		}
 
 		protected void AddAssembly(Assembly asm)
