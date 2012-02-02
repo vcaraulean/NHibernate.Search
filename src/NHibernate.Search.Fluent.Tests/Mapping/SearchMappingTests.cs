@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using NHibernate.Search.Fluent.Mapping;
 using NUnit.Framework;
 
@@ -13,7 +12,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping
 		{
 			var mapping = new SearchMapping_AssemblyContaining();
 
-			CollectionAssert.IsNotEmpty(mapping.GetMappingDocuments().ToList());
+			CollectionAssert.IsNotEmpty(mapping.GetMappingDocuments());
 		}
 
 		[Test]

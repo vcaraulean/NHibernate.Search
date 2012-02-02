@@ -78,6 +78,8 @@ namespace NHibernate.Search.Fluent.Mapping
 
 		public IBoostDefinition Boost(ICustomAttributeProvider member)
 		{
+			if (documentMap.Boost.HasValue)
+				return new BoostDefinition{Value = documentMap.Boost.Value};
 			return null;
 		}
 	}

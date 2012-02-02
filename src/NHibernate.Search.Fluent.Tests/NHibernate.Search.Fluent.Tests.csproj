@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="Cfg\FluentConfigurationTests.cs" />
     <Compile Include="FluentSearchTestBase.cs" />
+    <Compile Include="Mapping\FluentMappings\BoostPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\IdPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\IndexedPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\PropertyMappingTest.cs" />

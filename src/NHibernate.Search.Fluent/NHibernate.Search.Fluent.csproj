@@ -55,6 +55,7 @@
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Cfg\FluentSearch.cs" />
     <Compile Include="Exceptions\FluentMappingException.cs" />
+    <Compile Include="Mapping\Definitions\BoostDefinition.cs" />
     <Compile Include="Mapping\Definitions\DocumentIdDefinition.cs" />
     <Compile Include="Mapping\Definitions\IndexedDefinition.cs" />
     <Compile Include="Mapping\DocumentMap.cs" />
