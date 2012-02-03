@@ -31,7 +31,7 @@ namespace NHibernate.Search.Fluent.Mapping
 
 		public IList<IClassBridgeDefinition> ClassBridges(Type type)
 		{
-			return new List<IClassBridgeDefinition>();
+			return documentMap.ClassBridges;
 		}
 
 		public IFieldBridgeDefinition FieldBridge(MemberInfo member)

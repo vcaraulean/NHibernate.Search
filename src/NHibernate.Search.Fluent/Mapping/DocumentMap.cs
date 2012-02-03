@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Lucene.Net.Analysis;
+using NHibernate.Search.Bridge;
 using NHibernate.Search.Fluent.Exceptions;
 using NHibernate.Search.Fluent.Mapping.Parts;
+using NHibernate.Search.Mapping.Definition;
 
 namespace NHibernate.Search.Fluent.Mapping
 {
@@ -17,12 +20,14 @@ namespace NHibernate.Search.Fluent.Mapping
 		MemberInfo IdProperty { get; set; }
 		IDictionary<ICustomAttributeProvider, float?> BoostValues { get; }
 		IDictionary<ICustomAttributeProvider, Type> Analyzers { get; }
+		IList<IClassBridgeDefinition> ClassBridges { get; }
 	}
 
 	public abstract class DocumentMap<T> : IDocumentMap
 	{
 		private readonly IDictionary<ICustomAttributeProvider, float?> boostValues;
 		private readonly IDictionary<ICustomAttributeProvider, Type> analyzers;
+		private readonly IList<ClassBridgePart<T>> classBridges;
 
 		protected DocumentMap()
 		{
@@ -30,11 +35,12 @@ namespace NHibernate.Search.Fluent.Mapping
 
 			boostValues = new Dictionary<ICustomAttributeProvider, float?>();
 			analyzers = new Dictionary<ICustomAttributeProvider, Type>();
+			classBridges = new List<ClassBridgePart<T>>();
 		}
 
 		Type IDocumentMap.DocumentType
 		{
-			get { return typeof(T); }
+			get { return typeof (T); }
 		}
 
 		string IDocumentMap.Name { get; set; }
@@ -50,15 +56,20 @@ namespace NHibernate.Search.Fluent.Mapping
 			get { return analyzers; }
 		}
 
+		public IList<IClassBridgeDefinition> ClassBridges
+		{
+			get { return classBridges.Select(b => b.BridgeDefinition).ToList(); }
+		}
+
 		Type IHasAnalyzer.AnalyzerType
 		{
 			get
 			{
 				Type type;
-				analyzers.TryGetValue(typeof(T), out type);
+				analyzers.TryGetValue(typeof (T), out type);
 				return type;
 			}
-			set { analyzers[typeof(T)] = value; }
+			set { analyzers[typeof (T)] = value; }
 		}
 
 		/// <summary>
@@ -88,7 +99,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		/// <param name="boost"></param>
 		protected void Boost(float boost)
 		{
-			boostValues[typeof(T)] = boost;
+			boostValues[typeof (T)] = boost;
 		}
 
 		/// <summary>
@@ -111,6 +122,11 @@ namespace NHibernate.Search.Fluent.Mapping
 			return this.Analyzer().Custom<TAnalyzer>();
 		}
 
-
+		protected ClassBridgePart<T> Bridge<TBridge>() where TBridge : IFieldBridge
+		{
+			var newPart = new ClassBridgePart<T>(typeof(TBridge));
+			classBridges.Add(newPart);
+			return newPart;
+		}
 	}
 }
