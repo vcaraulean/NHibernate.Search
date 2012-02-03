@@ -29,6 +29,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		private readonly IDictionary<ICustomAttributeProvider, float?> boostValues;
 		private readonly IDictionary<ICustomAttributeProvider, Type> analyzers;
 		private readonly IList<ClassBridgePart<T>> classBridges;
+		private readonly IDictionary<MemberInfo, IList<FieldMappingPart>>  fieldMappings;
 
 		protected DocumentMap()
 		{
@@ -37,6 +38,7 @@ namespace NHibernate.Search.Fluent.Mapping
 			boostValues = new Dictionary<ICustomAttributeProvider, float?>();
 			analyzers = new Dictionary<ICustomAttributeProvider, Type>();
 			classBridges = new List<ClassBridgePart<T>>();
+			fieldMappings = new Dictionary<MemberInfo, IList<FieldMappingPart>>();
 		}
 
 		Type IDocumentMap.DocumentType
@@ -64,7 +66,15 @@ namespace NHibernate.Search.Fluent.Mapping
 
 		public IDictionary<MemberInfo, IList<IFieldDefinition>> FieldMappings
 		{
-			get { throw new NotImplementedException(); }
+			get
+			{
+				var result = new Dictionary<MemberInfo, IList<IFieldDefinition>>();
+				foreach (var fieldMapping in fieldMappings)
+				{
+					result.Add(fieldMapping.Key, fieldMapping.Value.Select(m => m.FieldDefinition).ToList());
+				}
+				return result;
+			}
 		}
 
 		Type IHasAnalyzer.AnalyzerType
@@ -125,7 +135,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		/// <returns></returns>
 		protected DocumentMap<T> Analyzer<TAnalyzer>() where TAnalyzer : Analyzer, new()
 		{
-			return this.Analyzer().Custom<TAnalyzer>();
+			return Analyzer().Custom<TAnalyzer>();
 		}
 
 		protected ClassBridgePart<T> Bridge<TBridge>() where TBridge : IFieldBridge
@@ -133,6 +143,23 @@ namespace NHibernate.Search.Fluent.Mapping
 			var newPart = new ClassBridgePart<T>(typeof(TBridge));
 			classBridges.Add(newPart);
 			return newPart;
+		}
+
+		/// <summary>
+		/// Map a Property as a Lucene.NET Field.
+		/// </summary>
+		/// <param name="property"></param>
+		/// <returns></returns>
+		protected FieldMappingPart Map(Expression<Func<T, object>> property)
+		{
+			var propertyInfo = property.ToPropertyInfo();
+			var field = new FieldMappingPart();
+			IList<FieldMappingPart> mappings;
+			if (fieldMappings.TryGetValue(propertyInfo, out mappings))
+				mappings.Add(field);
+			else
+				fieldMappings.Add(propertyInfo, new List<FieldMappingPart>(new []{field}));
+			return field;
 		}
 	}
 }

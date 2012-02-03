@@ -11,7 +11,6 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 	[TestFixture]
 	public class ClassBridgeMappingTest : PropertyMappingTest
 	{
-
 		[Test]
 		public void Should_extract_correc_number_of_class_bridges()
 		{

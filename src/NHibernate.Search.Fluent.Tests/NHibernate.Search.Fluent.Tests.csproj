@@ -73,6 +73,7 @@
     <Compile Include="Mapping\FluentMappings\AnalyzerPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\BoostPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\ClassBridgeMappingTest.cs" />
+    <Compile Include="Mapping\FluentMappings\FieldPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\IdPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\IndexedPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\PropertyMappingTest.cs" />

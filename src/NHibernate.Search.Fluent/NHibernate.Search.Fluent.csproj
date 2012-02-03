@@ -55,6 +55,8 @@
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Cfg\FluentSearch.cs" />
     <Compile Include="Exceptions\FluentMappingException.cs" />
+    <Compile Include="Mapping\Definitions\FieldDefinition.cs" />
+    <Compile Include="Mapping\Parts\BridgePart.cs" />
     <Compile Include="Mapping\Parts\ClassBridgePart.cs" />
     <Compile Include="Mapping\Definitions\AnalyzerDefinition.cs" />
     <Compile Include="Mapping\Definitions\BoostDefinition.cs" />
@@ -66,10 +68,12 @@
     <Compile Include="Mapping\FluentSearchMappingDefinition.cs" />
     <Compile Include="Mapping\IDocumentMappingProvider.cs" />
     <Compile Include="Mapping\Parts\AnalyzerPart.cs" />
+    <Compile Include="Mapping\Parts\FieldMappingPart.cs" />
     <Compile Include="Mapping\Parts\IFluentMappingPart.cs" />
     <Compile Include="Mapping\Parts\IFluentMappingPartExtensions.cs" />
     <Compile Include="Mapping\Parts\IHasAnalyzer.cs" />
     <Compile Include="Mapping\FluentSearchMapping.cs" />
+    <Compile Include="Mapping\Parts\IHasBridge.cs" />
     <Compile Include="Mapping\Parts\IndexPart.cs" />
     <Compile Include="Mapping\Parts\StorePart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

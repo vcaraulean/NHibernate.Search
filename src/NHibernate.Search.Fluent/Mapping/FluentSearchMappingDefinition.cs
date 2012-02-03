@@ -48,6 +48,9 @@ namespace NHibernate.Search.Fluent.Mapping
 
 		public IList<IFieldDefinition> FieldDefinitions(MemberInfo member)
 		{
+			IList<IFieldDefinition> defs;
+			if (documentMap.FieldMappings.TryGetValue(member, out defs))
+				return documentMap.FieldMappings[member];
 			return new List<IFieldDefinition>();
 		}
 
