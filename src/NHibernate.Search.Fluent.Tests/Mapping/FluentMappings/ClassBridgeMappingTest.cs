@@ -50,6 +50,13 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 			Assert.AreEqual(Attributes.Store.No, bridgeMapping.Store);
 		}
 
+		[Test]
+		public void Should_set_mapping_name()
+		{
+			var bridgeMapping = CreateDocumentMapping<DocMapWithTwoBridges>().ClassBridges.Last();
+			Assert.AreEqual("b2", bridgeMapping.Name);
+		}
+
 		class Doc { }
 
 		class DocMap : DocumentMap<Doc>
@@ -69,7 +76,9 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 			public DocMapWithTwoBridges()
 			{
 				Bridge<DocBridge>();
-				Bridge<DocBridge2>();
+				
+				Bridge<DocBridge2>()
+					.Name("b2");
 			}
 		}
 

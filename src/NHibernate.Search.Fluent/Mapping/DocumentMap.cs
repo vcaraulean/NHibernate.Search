@@ -21,6 +21,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		IDictionary<ICustomAttributeProvider, float?> BoostValues { get; }
 		IDictionary<ICustomAttributeProvider, Type> Analyzers { get; }
 		IList<IClassBridgeDefinition> ClassBridges { get; }
+		IDictionary<MemberInfo, IList<IFieldDefinition>> FieldMappings { get; }
 	}
 
 	public abstract class DocumentMap<T> : IDocumentMap
@@ -59,6 +60,11 @@ namespace NHibernate.Search.Fluent.Mapping
 		public IList<IClassBridgeDefinition> ClassBridges
 		{
 			get { return classBridges.Select(b => b.BridgeDefinition).ToList(); }
+		}
+
+		public IDictionary<MemberInfo, IList<IFieldDefinition>> FieldMappings
+		{
+			get { throw new NotImplementedException(); }
 		}
 
 		Type IHasAnalyzer.AnalyzerType

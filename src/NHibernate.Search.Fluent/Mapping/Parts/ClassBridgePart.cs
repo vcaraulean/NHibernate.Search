@@ -5,11 +5,9 @@ using NHibernate.Search.Mapping.Definition;
 namespace NHibernate.Search.Fluent.Mapping.Parts
 {
 	// TODO: Set bridge parameters
-	public class ClassBridgePart<T> : IHasAnalyzer, IHasIndex, IHasStore
+	public class ClassBridgePart<T> : FluentMappingPart, IHasAnalyzer, IHasIndex, IHasStore
 	{
 		private readonly System.Type bridgeType;
-		//string IFluentMappingPart.Name { get; set; }
-		private float? boost;
 		System.Type IHasAnalyzer.AnalyzerType { get; set; }
 		Attributes.Store? IHasStore.Store { get; set; }
 		Index? IHasIndex.Index { get; set; }
@@ -28,8 +26,13 @@ namespace NHibernate.Search.Fluent.Mapping.Parts
 					Analyzer = (this as IHasAnalyzer).AnalyzerType,
 					Impl = bridgeType,
 				};
-				if (boost.HasValue)
-					definition.Boost = boost.Value;
+
+				var fluentMappingPart = this as IFluentMappingPart;
+
+				definition.Name = fluentMappingPart.Name;
+
+				if (fluentMappingPart.Boost.HasValue)
+					definition.Boost = fluentMappingPart.Boost.Value;
 
 				var hasIndex = this as IHasIndex;
 				if (hasIndex.Index.HasValue)
@@ -56,16 +59,6 @@ namespace NHibernate.Search.Fluent.Mapping.Parts
 		public StorePart<ClassBridgePart<T>> Store()
 		{
 			return new StorePart<ClassBridgePart<T>>(this);
-		}
-
-		/// <summary>
-		/// Sets the boost value
-		/// </summary>
-		/// <param name="boostValue"></param>
-		public ClassBridgePart<T> Boost(float boostValue)
-		{
-			boost = boostValue;
-			return this;
 		}
 	}
 }
