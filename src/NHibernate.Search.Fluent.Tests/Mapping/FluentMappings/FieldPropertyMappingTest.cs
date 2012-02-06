@@ -21,7 +21,6 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 		}
 
 		[Test]
-		[Ignore("Failing. SearchMappingBuilder is not using it for fields, only for ID field")]
 		public void Should_map_Boost_property()
 		{
 			var fieldMapping = CreateDocumentMapping<DocMap>().Fields.Single();

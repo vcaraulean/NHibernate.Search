@@ -6,6 +6,7 @@ using System.Reflection;
 using Lucene.Net.Analysis;
 using NHibernate.Search.Bridge;
 using NHibernate.Search.Fluent.Exceptions;
+using NHibernate.Search.Fluent.Mapping.Definitions;
 using NHibernate.Search.Fluent.Mapping.Parts;
 using NHibernate.Search.Mapping.Definition;
 
@@ -22,6 +23,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		IDictionary<ICustomAttributeProvider, Type> Analyzers { get; }
 		IList<IClassBridgeDefinition> ClassBridges { get; }
 		IDictionary<MemberInfo, IList<IFieldDefinition>> FieldMappings { get; }
+		IDictionary<MemberInfo, IIndexedEmbeddedDefinition> EmbeddedDefs { get; } 
 	}
 
 	public abstract class DocumentMap<T> : IDocumentMap
@@ -30,6 +32,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		private readonly IDictionary<ICustomAttributeProvider, Type> analyzers;
 		private readonly IList<ClassBridgePart<T>> classBridges;
 		private readonly IDictionary<MemberInfo, IList<FieldMappingPart>>  fieldMappings;
+		private readonly IDictionary<MemberInfo, EmbeddedMappingPart>  embeddedMappings;
 
 		protected DocumentMap()
 		{
@@ -39,6 +42,7 @@ namespace NHibernate.Search.Fluent.Mapping
 			analyzers = new Dictionary<ICustomAttributeProvider, Type>();
 			classBridges = new List<ClassBridgePart<T>>();
 			fieldMappings = new Dictionary<MemberInfo, IList<FieldMappingPart>>();
+			embeddedMappings = new Dictionary<MemberInfo, EmbeddedMappingPart>();
 		}
 
 		Type IDocumentMap.DocumentType
@@ -72,6 +76,19 @@ namespace NHibernate.Search.Fluent.Mapping
 				foreach (var fieldMapping in fieldMappings)
 				{
 					result.Add(fieldMapping.Key, fieldMapping.Value.Select(m => m.FieldDefinition).ToList());
+				}
+				return result;
+			}
+		}
+
+		public IDictionary<MemberInfo, IIndexedEmbeddedDefinition> EmbeddedDefs
+		{
+			get
+			{
+				var result = new Dictionary<MemberInfo, IIndexedEmbeddedDefinition>();
+				foreach(var embeddedMap in embeddedMappings)
+				{
+					result.Add(embeddedMap.Key, embeddedMap.Value.EmbeddedDefinition);
 				}
 				return result;
 			}
@@ -160,6 +177,13 @@ namespace NHibernate.Search.Fluent.Mapping
 			else
 				fieldMappings.Add(propertyInfo, new List<FieldMappingPart>(new []{field}));
 			return field;
+		}
+
+		protected EmbeddedMappingPart Embedded(Expression<Func<T, object>> property)
+		{
+			var part = new EmbeddedMappingPart();
+			embeddedMappings.Add(property.ToPropertyInfo(), part);
+			return part;
 		}
 	}
 }

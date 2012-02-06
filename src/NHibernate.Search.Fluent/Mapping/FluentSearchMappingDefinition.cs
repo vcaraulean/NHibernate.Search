@@ -56,6 +56,9 @@ namespace NHibernate.Search.Fluent.Mapping
 
 		public IIndexedEmbeddedDefinition IndexedEmbedded(MemberInfo member)
 		{
+			IIndexedEmbeddedDefinition def;
+			if (documentMap.EmbeddedDefs.TryGetValue(member, out def))
+				return def;
 			return null;
 		}
 

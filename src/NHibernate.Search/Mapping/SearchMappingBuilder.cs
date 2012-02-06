@@ -184,7 +184,8 @@ namespace NHibernate.Search.Mapping
 					{
 						Store = fieldDefinition.Store,
 						Index = fieldDefinition.Index,
-						Analyzer = fieldAnalyzer
+						Analyzer = fieldAnalyzer,
+						Boost = boost
 					};
 
 					documentMapping.Fields.Add(field);
