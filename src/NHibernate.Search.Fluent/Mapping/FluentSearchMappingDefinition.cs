@@ -12,16 +12,45 @@ namespace NHibernate.Search.Fluent.Mapping
 
 	public class FluentSearchMappingDefinition : ISearchMappingDefinition
 	{
-		private readonly IDocumentMap documentMap;
+		private readonly IDictionary<Type, string> indexedDefinitions;
+		private readonly IDictionary<ICustomAttributeProvider, float> boostValues;
+		private readonly IDictionary<MemberInfo, MemberInfo> documentIDs;
+		private readonly IDictionary<ICustomAttributeProvider, Type> analyzers;
+		private readonly IDictionary<Type, IList<IClassBridgeDefinition>> classBridges;
+		private readonly IDictionary<MemberInfo, IIndexedEmbeddedDefinition> embeddings;
+		private readonly IDictionary<MemberInfo, IList<IFieldDefinition>> fields;
 
 		public FluentSearchMappingDefinition(IDocumentMap documentMap)
+			: this(new []{documentMap})
 		{
-			this.documentMap = documentMap;
+		}
+
+		public FluentSearchMappingDefinition(IEnumerable<IDocumentMap> documentMaps)
+		{
+			indexedDefinitions = new Dictionary<Type, string>();
+			boostValues = new Dictionary<ICustomAttributeProvider, float>();
+			documentIDs = new Dictionary<MemberInfo, MemberInfo>();
+			analyzers = new Dictionary<ICustomAttributeProvider, Type>();
+			classBridges = new Dictionary<Type, IList<IClassBridgeDefinition>>();
+			embeddings = new Dictionary<MemberInfo, IIndexedEmbeddedDefinition>();
+			fields = new Dictionary<MemberInfo, IList<IFieldDefinition>>();
+			
+			foreach (var map in documentMaps)
+			{
+				indexedDefinitions.Add(map.DocumentType,  map.Name);
+				documentIDs.Add(map.IdProperty, map.IdProperty);
+				classBridges.Add(map.DocumentType, map.ClassBridges);
+				
+				boostValues = boostValues.Concat(map.BoostValues).ToDictionary(x => x.Key, x => x.Value);
+				analyzers = analyzers.Concat(map.Analyzers).ToDictionary(x => x.Key, x => x.Value);
+				embeddings = embeddings.Concat(map.EmbeddedDefs).ToDictionary(x => x.Key, x => x.Value);
+				fields = fields.Concat(map.FieldMappings).ToDictionary(x => x.Key, x => x.Value);
+			}
 		}
 
 		public IIndexedDefinition Indexed(Type type)
 		{
-			return new IndexedDefinition{Index = documentMap.Name};
+			return new IndexedDefinition {Index = indexedDefinitions[type]};
 		}
 
 		public IList<FilterDef> FullTextFilters(Type type)
@@ -31,7 +60,10 @@ namespace NHibernate.Search.Fluent.Mapping
 
 		public IList<IClassBridgeDefinition> ClassBridges(Type type)
 		{
-			return documentMap.ClassBridges;
+			IList<IClassBridgeDefinition> result;
+			if (classBridges.TryGetValue(type, out result))
+				return result;
+			return new List<IClassBridgeDefinition>();
 		}
 
 		public IFieldBridgeDefinition FieldBridge(MemberInfo member)
@@ -41,23 +73,24 @@ namespace NHibernate.Search.Fluent.Mapping
 
 		public IDocumentIdDefinition DocumentId(MemberInfo member)
 		{
-			if (member == documentMap.IdProperty)
-				return new DocumentIdDefinition{Name = documentMap.IdProperty.Name};
+			MemberInfo def;
+			if (documentIDs.TryGetValue(member, out def))
+				return new DocumentIdDefinition{Name = def.Name};
 			return null;
 		}
 
 		public IList<IFieldDefinition> FieldDefinitions(MemberInfo member)
 		{
 			IList<IFieldDefinition> defs;
-			if (documentMap.FieldMappings.TryGetValue(member, out defs))
-				return documentMap.FieldMappings[member];
+			if (fields.TryGetValue(member, out defs))
+				return defs;
 			return new List<IFieldDefinition>();
 		}
 
 		public IIndexedEmbeddedDefinition IndexedEmbedded(MemberInfo member)
 		{
 			IIndexedEmbeddedDefinition def;
-			if (documentMap.EmbeddedDefs.TryGetValue(member, out def))
+			if (embeddings.TryGetValue(member, out def))
 				return def;
 			return null;
 		}
@@ -80,7 +113,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		public IAnalyzerDefinition Analyzer(ICustomAttributeProvider member)
 		{
 			Type type;
-			if (documentMap.Analyzers.TryGetValue(member, out type))
+			if (analyzers.TryGetValue(member, out type))
 				return new AnalyzerDefinition { Type = type};
 			return null;
 		}
@@ -88,7 +121,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		public IBoostDefinition Boost(ICustomAttributeProvider member)
 		{
 			float boost;
-			if (documentMap.BoostValues.TryGetValue(member, out boost))
+			if (boostValues.TryGetValue(member, out boost))
 				return new BoostDefinition{Value = boost};
 			return null;
 		}

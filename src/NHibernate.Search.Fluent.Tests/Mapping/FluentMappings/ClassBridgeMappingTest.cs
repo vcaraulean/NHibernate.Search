@@ -56,12 +56,16 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 			Assert.AreEqual("b2", bridgeMapping.Name);
 		}
 
-		class Doc { }
+		class Doc
+		{
+			public int Id { get; set; }
+		}
 
 		class DocMap : DocumentMap<Doc>
 		{
 			public DocMap()
 			{
+				Id(x => x.Id);
 				Bridge<DocBridge>()
 					.Boost(1.2f)
 					.Analyzer().Keyword()
@@ -74,6 +78,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 		{
 			public DocMapWithTwoBridges()
 			{
+				Id(x => x.Id);
 				Bridge<DocBridge>();
 				
 				Bridge<DocBridge2>()

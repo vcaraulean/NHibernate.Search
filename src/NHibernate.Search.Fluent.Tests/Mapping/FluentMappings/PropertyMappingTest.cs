@@ -9,7 +9,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 			where TMap : IDocumentMap, new()
 		{
 			var fluentMap = new TMap();
-			var builder = new FluentSearchMappingBuilder(fluentMap);
+			var builder = new FluentSearchMappingBuilder(new FluentSearchMappingDefinition(fluentMap));
 			return builder.Build(fluentMap.DocumentType);
 		}
 	}

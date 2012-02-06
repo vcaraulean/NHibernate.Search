@@ -12,12 +12,16 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 			Assert.AreEqual("docIndex", CreateDocumentMapping<DocMapping>().IndexName);
 		}
 
-		class Doc{ }
+		class Doc
+		{
+			public int Id { get; set; }
+		}
 
 		class DocMapping : DocumentMap<Doc>
 		{
 			public DocMapping()
 			{
+				Id(x => x.Id);
 				Name("docIndex");
 			}
 		}

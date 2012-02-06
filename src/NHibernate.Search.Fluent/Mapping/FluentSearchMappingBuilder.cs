@@ -4,8 +4,8 @@ namespace NHibernate.Search.Fluent.Mapping
 {
 	public class FluentSearchMappingBuilder : SearchMappingBuilder
 	{
-		public FluentSearchMappingBuilder(IDocumentMap documentMap) 
-			: base(new FluentSearchMappingDefinition(documentMap))
+		public FluentSearchMappingBuilder(FluentSearchMappingDefinition mappingDefinition) 
+			: base(mappingDefinition)
 		{
 		}
 	}

@@ -40,6 +40,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 
 		class Doc
 		{
+			public int Id { get; set; }
 			public IList<Author> Authors { get; set; }
 			public string Name { get; set; }
 		}
@@ -53,6 +54,8 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 		{
 			public DocMap()
 			{
+				Id(x => x.Id);
+
 				Embedded(x => x.Authors)
 					.Depth(3)
 					.Prefix(":")
@@ -62,6 +65,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 
 		class Doc2
 		{
+			public int Id { get; set; }
 			public Author Author { get; set; }
 		}
 
@@ -69,6 +73,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 		{
 			public Doc2Map()
 			{
+				Id(x => x.Id);
 				Embedded(d => d.Author);
 			}
 		}

@@ -18,15 +18,25 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 			Assert.AreEqual(null, CreateDocumentMapping<DocMapNoBoost>().Boost);
 		}
 
-		class Doc { }
+		class Doc
+		{
+			public int Id { get; set; }
+		}
 		class DocMap : DocumentMap<Doc>
 		{
 			public DocMap()
 			{
+				Id(x => x.Id);
 				Boost(1.3f);
 			}
 		}
-		class DocMapNoBoost : DocumentMap<Doc> { }
+		class DocMapNoBoost : DocumentMap<Doc>
+		{
+			public DocMapNoBoost()
+			{
+				Id(x => x.Id);
+			}
+		}
 
 	}
 }

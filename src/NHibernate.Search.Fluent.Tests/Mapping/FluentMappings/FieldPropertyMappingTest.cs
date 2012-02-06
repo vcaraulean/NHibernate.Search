@@ -30,6 +30,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 
 		class Doc
 		{
+			public int Id { get; set; }
 			public string SomeProperty { get; set; }
 		}
 
@@ -37,6 +38,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 		{
 			public DocMap()
 			{
+				Id(x => x.Id);
 				Map(doc => doc.SomeProperty)
 					.Name("prop")
 					.Boost(2.1f)
