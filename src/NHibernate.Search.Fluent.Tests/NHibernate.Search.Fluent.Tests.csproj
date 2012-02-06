@@ -70,6 +70,11 @@
   <ItemGroup>
     <Compile Include="Cfg\FluentConfigurationTests.cs" />
     <Compile Include="FluentSearchTestBase.cs" />
+    <Compile Include="Integration\Domain.cs" />
+    <Compile Include="Integration\DomainNHibernateMappings.cs" />
+    <Compile Include="Integration\DomainSearchMapping.cs" />
+    <Compile Include="Integration\SearchEmbeddedEntitiesTest.cs" />
+    <Compile Include="Integration\SimpleMappingsSearchTest.cs" />
     <Compile Include="Mapping\FluentMappings\AnalyzerPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\BoostPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\ClassBridgeMappingTest.cs" />
@@ -92,6 +97,7 @@
       <Name>NHibernate.Search</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

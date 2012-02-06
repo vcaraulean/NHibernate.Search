@@ -25,12 +25,12 @@ namespace NHibernate.Search.Fluent.Mapping
 		{
 			Configure();
 
-			var mappings = GetMappingDocuments().Select(provider =>
+			var mappings = GetMappingDocuments().Select(documentMap =>
 			{
 				//if (assert)
 				//    provider.AssertIsValid();
-				var builder = new FluentSearchMappingBuilder(provider);
-				return builder.Build(provider.DocumentType);
+				var builder = new FluentSearchMappingBuilder(documentMap);
+				return builder.Build(documentMap.DocumentType);
 			});
 
 			return mappings.ToList();

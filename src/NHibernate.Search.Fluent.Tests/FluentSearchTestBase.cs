@@ -13,8 +13,10 @@ namespace NHibernate.Search.Fluent.Tests
 	public abstract class FluentSearchTestBase
 	{
 		protected ISession Session;
-		private ISessionFactory sessionFactory;
+		protected IFullTextSession SearchSession;
 
+		private ISessionFactory sessionFactory;
+		
 		[SetUp]
 		public void SetUp()
 		{
@@ -36,19 +38,31 @@ namespace NHibernate.Search.Fluent.Tests
 			var hbms = modelMapper.CompileMappingForAllExplicitlyAddedEntities();
 			configuration.AddDeserializedMapping(hbms, assembly.GetName().Name);
 
+			ConfigureSearch(configuration);
+
 			sessionFactory = configuration.BuildSessionFactory();
 			
 			Session = sessionFactory.OpenSession();
+			SearchSession = Search.CreateFullTextSession(Session);
 			
 			new SchemaExport(configuration)
 				.Execute(false, true, false, Session.Connection, null);
+
+			AfterSetup();
 		}
+
+		protected virtual void AfterSetup() { }
+
+		protected virtual void ConfigureSearch(Configuration cfg) { }
 
 		[TearDown]
 		public void TearDown()
 		{
+			Cleanup();
 			if (sessionFactory != null)
 				sessionFactory.Dispose();
 		}
+
+		protected virtual void Cleanup() { }
 	}
 }

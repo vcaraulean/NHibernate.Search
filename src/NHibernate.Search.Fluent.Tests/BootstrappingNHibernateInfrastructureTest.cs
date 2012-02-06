@@ -33,6 +33,5 @@ namespace NHibernate.Search.Fluent.Tests
 			Assert.AreEqual(1, retrievedEntity.Id);
 			Assert.AreEqual("first", retrievedEntity.Name);
 		}
-
 	}
 }
