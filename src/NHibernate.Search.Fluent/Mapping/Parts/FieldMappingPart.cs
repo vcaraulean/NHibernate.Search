@@ -1,4 +1,5 @@
-﻿using NHibernate.Search.Bridge;
+﻿using System.Reflection;
+using NHibernate.Search.Bridge;
 using NHibernate.Search.Fluent.Mapping.Definitions;
 using NHibernate.Search.Mapping.Definition;
 
@@ -6,12 +7,35 @@ namespace NHibernate.Search.Fluent.Mapping.Parts
 {
 	using Attributes;
 	using Type = System.Type;
-	public class FieldMappingPart : FluentMappingPart, IHasBridge, IHasAnalyzer, IHasIndex, IHasStore
+	public class FieldMappingPart : IHasBridge, IHasAnalyzer, IHasIndex, IHasStore
 	{
+		private readonly IDocumentMap documentMap;
+		private readonly PropertyInfo property;
 		Index? IHasIndex.Index { get; set; }
 		Store? IHasStore.Store { get; set; }
 		Type IHasAnalyzer.AnalyzerType { get; set; }
 		IFieldBridge IHasBridge.FieldBridge { get; set; }
+		string name { get; set; }
+		float? boost { get; set; }
+
+		public FieldMappingPart(IDocumentMap documentMap, PropertyInfo property)
+		{
+			this.documentMap = documentMap;
+			this.property = property;
+		}
+
+		public FieldMappingPart Name(string name)
+		{
+			this.name = name;
+			return this;
+		}
+
+		public FieldMappingPart Boost(float boostValue)
+		{
+			boost = boostValue;
+			documentMap.BoostValues.Add(property, boostValue);
+			return this;
+		}
 
 		/// <summary>
 		/// Defines the Field Index.
@@ -55,7 +79,7 @@ namespace NHibernate.Search.Fluent.Mapping.Parts
 			{ 
 				var definition = new FieldDefinition
 				{
-					Name = (this as IFluentMappingPart).Name
+					Name = name,
 				};
 
 				var hasIndex = this as IHasIndex;

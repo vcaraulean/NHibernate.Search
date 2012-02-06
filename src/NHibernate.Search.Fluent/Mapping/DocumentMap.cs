@@ -153,7 +153,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		protected FieldMappingPart Map(Expression<Func<T, object>> property)
 		{
 			var propertyInfo = property.ToPropertyInfo();
-			var field = new FieldMappingPart();
+			var field = new FieldMappingPart(this, propertyInfo);
 			IList<FieldMappingPart> mappings;
 			if (fieldMappings.TryGetValue(propertyInfo, out mappings))
 				mappings.Add(field);
