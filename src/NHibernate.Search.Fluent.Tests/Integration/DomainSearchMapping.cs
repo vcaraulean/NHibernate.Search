@@ -7,7 +7,7 @@ namespace NHibernate.Search.Fluent.Tests.Integration
 		protected override void Configure()
 		{
 			Add<AddressSearchMap>();
-			//Add<CountrySearchMap>();
+			Add<CountrySearchMap>();
 		}
 	}
 

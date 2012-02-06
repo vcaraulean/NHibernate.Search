@@ -31,8 +31,8 @@ namespace NHibernate.Search.Fluent.Mapping
 		private readonly IDictionary<ICustomAttributeProvider, float?> boostValues;
 		private readonly IDictionary<ICustomAttributeProvider, Type> analyzers;
 		private readonly IList<ClassBridgePart<T>> classBridges;
-		private readonly IDictionary<MemberInfo, IList<FieldMappingPart>>  fieldMappings;
-		private readonly IDictionary<MemberInfo, EmbeddedMappingPart>  embeddedMappings;
+		private readonly IDictionary<MemberInfo, IList<FieldMappingPart>> fieldMappings;
+		private readonly IDictionary<MemberInfo, EmbeddedMappingPart> embeddedMappings;
 
 		protected DocumentMap()
 		{
@@ -63,12 +63,12 @@ namespace NHibernate.Search.Fluent.Mapping
 			get { return analyzers; }
 		}
 
-		public IList<IClassBridgeDefinition> ClassBridges
+		IList<IClassBridgeDefinition> IDocumentMap.ClassBridges
 		{
 			get { return classBridges.Select(b => b.BridgeDefinition).ToList(); }
 		}
 
-		public IDictionary<MemberInfo, IList<IFieldDefinition>> FieldMappings
+		IDictionary<MemberInfo, IList<IFieldDefinition>> IDocumentMap.FieldMappings
 		{
 			get
 			{
@@ -81,7 +81,7 @@ namespace NHibernate.Search.Fluent.Mapping
 			}
 		}
 
-		public IDictionary<MemberInfo, IIndexedEmbeddedDefinition> EmbeddedDefs
+		IDictionary<MemberInfo, IIndexedEmbeddedDefinition> IDocumentMap.EmbeddedDefs
 		{
 			get
 			{
