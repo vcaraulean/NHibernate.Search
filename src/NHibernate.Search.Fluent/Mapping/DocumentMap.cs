@@ -19,7 +19,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		Type DocumentType { get; }
 		string Name { get; set; }
 		MemberInfo IdProperty { get; set; }
-		IDictionary<ICustomAttributeProvider, float?> BoostValues { get; }
+		IDictionary<ICustomAttributeProvider, float> BoostValues { get; }
 		IDictionary<ICustomAttributeProvider, Type> Analyzers { get; }
 		IList<IClassBridgeDefinition> ClassBridges { get; }
 		IDictionary<MemberInfo, IList<IFieldDefinition>> FieldMappings { get; }
@@ -28,7 +28,7 @@ namespace NHibernate.Search.Fluent.Mapping
 
 	public abstract class DocumentMap<T> : IDocumentMap
 	{
-		private readonly IDictionary<ICustomAttributeProvider, float?> boostValues;
+		private readonly IDictionary<ICustomAttributeProvider, float> boostValues;
 		private readonly IDictionary<ICustomAttributeProvider, Type> analyzers;
 		private readonly IList<ClassBridgePart<T>> classBridges;
 		private readonly IDictionary<MemberInfo, IList<FieldMappingPart>> fieldMappings;
@@ -38,7 +38,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		{
 			Name(typeof (T).Name);
 
-			boostValues = new Dictionary<ICustomAttributeProvider, float?>();
+			boostValues = new Dictionary<ICustomAttributeProvider, float>();
 			analyzers = new Dictionary<ICustomAttributeProvider, Type>();
 			classBridges = new List<ClassBridgePart<T>>();
 			fieldMappings = new Dictionary<MemberInfo, IList<FieldMappingPart>>();
@@ -53,7 +53,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		string IDocumentMap.Name { get; set; }
 		MemberInfo IDocumentMap.IdProperty { get; set; }
 
-		IDictionary<ICustomAttributeProvider, float?> IDocumentMap.BoostValues
+		IDictionary<ICustomAttributeProvider, float> IDocumentMap.BoostValues
 		{
 			get { return boostValues; }
 		}
