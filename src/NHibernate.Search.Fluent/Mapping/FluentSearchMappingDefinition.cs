@@ -44,7 +44,25 @@ namespace NHibernate.Search.Fluent.Mapping
 				boostValues = boostValues.Concat(map.BoostValues).ToDictionary(x => x.Key, x => x.Value);
 				analyzers = analyzers.Concat(map.Analyzers).ToDictionary(x => x.Key, x => x.Value);
 				embeddings = embeddings.Concat(map.EmbeddedDefs).ToDictionary(x => x.Key, x => x.Value);
-				fields = fields.Concat(map.FieldMappings).ToDictionary(x => x.Key, x => x.Value);
+				Merge(map.FieldMappings);
+				//fields.Concat(map.FieldMappings).ToDictionary(x => x.Key, x => x.Value);
+			}
+		}
+
+		private void Merge(IDictionary<MemberInfo, IList<IFieldDefinition>> fieldMappings)
+		{
+			foreach (var fieldMapping in fieldMappings)
+			{
+				IList<IFieldDefinition> existentDefs;
+				if (fields.TryGetValue(fieldMapping.Key, out existentDefs))
+				{
+					// Merging only IFieldDefinition that have Name != from existent definition
+					var missingDefinitions = fieldMapping.Value
+						.Where(d => existentDefs.Any(exd => exd.Name == d.Name) == false);
+					fields[fieldMapping.Key] = existentDefs.Concat(missingDefinitions).ToList();
+				}
+				else
+					fields[fieldMapping.Key] = fieldMapping.Value;
 			}
 		}
 

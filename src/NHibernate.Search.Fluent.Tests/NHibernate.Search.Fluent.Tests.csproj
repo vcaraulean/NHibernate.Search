@@ -73,8 +73,12 @@
     <Compile Include="Integration\Domain.cs" />
     <Compile Include="Integration\DomainNHibernateMappings.cs" />
     <Compile Include="Integration\DomainSearchMapping.cs" />
+    <Compile Include="Integration\Inheritance\Domain.cs" />
+    <Compile Include="Integration\Inheritance\NHibernateMappings.cs" />
+    <Compile Include="Integration\Inheritance\SearchMappings.cs" />
     <Compile Include="Integration\SearchEmbeddedCollectionsTest.cs" />
     <Compile Include="Integration\SearchEmbeddedEntitiesTest.cs" />
+    <Compile Include="Integration\Inheritance\SearchInheritanceTest.cs" />
     <Compile Include="Integration\SimpleMappingsSearchTest.cs" />
     <Compile Include="Mapping\FluentMappings\AnalyzerPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\BoostPropertyMappingTest.cs" />
