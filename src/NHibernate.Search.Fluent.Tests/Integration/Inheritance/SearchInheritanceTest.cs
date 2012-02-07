@@ -57,9 +57,18 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 		[Test]
 		public void Should_be_able_to_get_results_from_whole_hierarchy()
 		{
-			var nhresult = Session.QueryOver<Document>().List<Document>();
-			Console.WriteLine(nhresult.Count);
-			
+			var parser = new QueryParser(Version.LUCENE_29, "Name", new StandardAnalyzer(Version.LUCENE_29));
+			var query = parser.Parse("doc*");
+			var result = SearchSession
+				.CreateFullTextQuery(query, typeof(OrderDocument), typeof(InvoiceDocument))
+				.List<Document>();
+
+			Assert.AreEqual(2, result.Count);
+		}
+
+		[Test]
+		public void Should_be_able_to_get_results_from_whole_hierarchy_by_querying_with_base_class()
+		{
 			var parser = new QueryParser(Version.LUCENE_29, "Name", new StandardAnalyzer(Version.LUCENE_29));
 			var query = parser.Parse("doc*");
 			var result = SearchSession
@@ -68,6 +77,5 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 
 			Assert.AreEqual(2, result.Count);
 		}
-
 	}
 }

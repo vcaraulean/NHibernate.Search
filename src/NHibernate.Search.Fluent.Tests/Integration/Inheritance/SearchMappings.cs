@@ -25,7 +25,6 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 	{
 		public OrderDocumentSearchMap()
 		{
-			Name("OrderDocument");
 			Map(x => x.OrderId);
 		}
 	}
@@ -34,7 +33,6 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 	{
 		public InvoiceDocumentSearchMap()
 		{
-			Name("InvoiceDocument");
 			Map(x => x.InvoiceId);
 		}
 	}
