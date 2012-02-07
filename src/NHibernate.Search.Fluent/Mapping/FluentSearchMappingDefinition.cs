@@ -38,7 +38,7 @@ namespace NHibernate.Search.Fluent.Mapping
 			foreach (var map in documentMaps)
 			{
 				indexedDefinitions.Add(map.DocumentType,  map.Name);
-				documentIDs.Add(map.IdProperty, map.IdProperty);
+				documentIDs[map.IdProperty] = map.IdProperty;
 				classBridges.Add(map.DocumentType, map.ClassBridges);
 				
 				boostValues = boostValues.Concat(map.BoostValues).ToDictionary(x => x.Key, x => x.Value);

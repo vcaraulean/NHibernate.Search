@@ -84,6 +84,7 @@
     <Compile Include="Mapping\FluentMappings\IdPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\IndexedPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\PropertyMappingTest.cs" />
+    <Compile Include="Mapping\MappingHierachiesAndIDsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BootstrappingNHibernateInfrastructureTest.cs" />
     <Compile Include="Mapping\SearchMappingTests.cs" />

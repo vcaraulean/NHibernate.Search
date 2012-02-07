@@ -58,6 +58,8 @@
     <Compile Include="Mapping\Definitions\FieldDefinition.cs" />
     <Compile Include="Mapping\Definitions\IndexedEmbeddedDefinition.cs" />
     <Compile Include="Mapping\Definitions\EmbeddedMappingPart.cs" />
+    <Compile Include="Exceptions\DocumentMappingException.cs" />
+    <Compile Include="Mapping\IValidateMapping.cs" />
     <Compile Include="Mapping\Parts\BridgePart.cs" />
     <Compile Include="Mapping\Parts\ClassBridgePart.cs" />
     <Compile Include="Mapping\Definitions\AnalyzerDefinition.cs" />

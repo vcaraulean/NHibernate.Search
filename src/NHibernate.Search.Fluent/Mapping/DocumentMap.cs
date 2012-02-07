@@ -14,7 +14,7 @@ namespace NHibernate.Search.Fluent.Mapping
 {
 	using Type = System.Type;
 
-	public interface IDocumentMap : IHasAnalyzer
+	public interface IDocumentMap : IHasAnalyzer, IValidateMapping
 	{
 		Type DocumentType { get; }
 		string Name { get; set; }
@@ -184,6 +184,15 @@ namespace NHibernate.Search.Fluent.Mapping
 			var part = new EmbeddedMappingPart();
 			embeddedMappings.Add(property.ToPropertyInfo(), part);
 			return part;
+		}
+
+		public void AssertIsValid()
+		{
+			if (string.IsNullOrEmpty((this as IDocumentMap).Name))
+				throw new DocumentMappingException("Index name cannot be null or empty");
+
+			if ((this as IDocumentMap).IdProperty == null)
+				throw new DocumentMappingException("Document Id cannot be null");
 		}
 	}
 }

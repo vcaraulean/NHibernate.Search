@@ -26,6 +26,13 @@ namespace NHibernate.Search.Fluent.Mapping
 			Configure();
 
 			var fluentMappings = GetMappingDocuments().ToList();
+			if (assert)
+			{
+				foreach (var fluentMapping in fluentMappings)
+				{
+					fluentMapping.AssertIsValid();
+				}
+			}
 			var fluentMappingDefinitions = new FluentSearchMappingDefinition(fluentMappings);
 			var builder = new FluentSearchMappingBuilder(fluentMappingDefinitions);
 			var documentMappings = fluentMappings
