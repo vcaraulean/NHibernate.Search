@@ -1,4 +1,6 @@
-﻿namespace NHibernate.Search.Fluent.Tests.Integration
+﻿using System.Collections.Generic;
+
+namespace NHibernate.Search.Fluent.Tests.Integration
 {
 	public class Address
 	{
@@ -12,5 +14,12 @@
 	{
 		public virtual int Id { get; set; }
 		public virtual string Name { get; set; }
+	}
+
+	public class Contact
+	{
+		public virtual int Id { get; set; }
+		public virtual string Name { get; set; }
+		public virtual IList<Address> Addresses { get; set; }
 	}
 }

@@ -23,7 +23,22 @@ namespace NHibernate.Search.Fluent.Tests.Integration
 			{
 				mapper.Column("country_id");
 				mapper.Cascade(Cascade.All);
+				mapper.NotNullable(false);
 			});
+		}
+	}
+
+	public class ContactMap : ClassMapping<Contact>
+	{
+		public ContactMap()
+		{
+			Id(x => x.Id, mapper => mapper.Generator(Generators.Identity));
+			Property(x => x.Name);
+			Bag(x => x.Addresses, mapper =>
+			{
+				mapper.Cascade(Cascade.All);
+				mapper.Key(km => km.Column("ContactId"));
+			}, relation => relation.OneToMany());
 		}
 	}
 }

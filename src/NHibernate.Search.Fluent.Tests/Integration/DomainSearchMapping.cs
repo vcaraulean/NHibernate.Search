@@ -8,6 +8,7 @@ namespace NHibernate.Search.Fluent.Tests.Integration
 		{
 			Add<AddressSearchMap>();
 			Add<CountrySearchMap>();
+			Add<ContactSearchMap>();
 		}
 	}
 
@@ -29,6 +30,16 @@ namespace NHibernate.Search.Fluent.Tests.Integration
 			Map(x => x.Name)
 				.Index().Tokenized()
 				.Store().Yes();
+		}
+	}
+
+	public class ContactSearchMap : DocumentMap<Contact>
+	{
+		public ContactSearchMap()
+		{
+			Id(x => x.Id);
+			Map(x => x.Name).Index().Tokenized().Store().Yes();
+			Embedded(x => x.Addresses);
 		}
 	}
 }
