@@ -8,6 +8,7 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 		{
 			Add<OrderDocumentSearchMap>();
 			Add<InvoiceDocumentSearchMap>();
+			Add<ReferenceSearchMap>();
 		}
 	}
 
@@ -18,6 +19,7 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 		{
 			Id(x => x.Id);
 			Map(x => x.Name);
+			Embedded(x => x.References);
 		}
 	}
 
@@ -34,6 +36,15 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 		public InvoiceDocumentSearchMap()
 		{
 			Map(x => x.InvoiceId);
+		}
+	}
+
+	public class ReferenceSearchMap : DocumentMap<Reference>
+	{
+		public ReferenceSearchMap()
+		{
+			Id(x => x.Id);
+			Map(x => x.Description);
 		}
 	}
 }

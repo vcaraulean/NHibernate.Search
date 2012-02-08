@@ -43,9 +43,18 @@ namespace NHibernate.Search.Fluent.Mapping
 				
 				boostValues = boostValues.Concat(map.BoostValues).ToDictionary(x => x.Key, x => x.Value);
 				analyzers = analyzers.Concat(map.Analyzers).ToDictionary(x => x.Key, x => x.Value);
-				embeddings = embeddings.Concat(map.EmbeddedDefs).ToDictionary(x => x.Key, x => x.Value);
+				Merge(map.EmbeddedDefs);
 				Merge(map.FieldMappings);
 				//fields.Concat(map.FieldMappings).ToDictionary(x => x.Key, x => x.Value);
+			}
+		}
+
+		private void Merge(IDictionary<MemberInfo, IIndexedEmbeddedDefinition> embeddedDefs)
+		{
+			foreach (var def in embeddedDefs)
+			{
+				if (embeddings.ContainsKey(def.Key) == false)
+					embeddings[def.Key] = def.Value;
 			}
 		}
 

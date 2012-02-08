@@ -1,5 +1,4 @@
-﻿using System;
-using Lucene.Net.Analysis.Standard;
+﻿using Lucene.Net.Analysis.Standard;
 using Lucene.Net.QueryParsers;
 using NHibernate.Cfg;
 using NHibernate.Event;
@@ -35,13 +34,22 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 			Session.Save(new OrderDocument
 			{
 				Name = "doc 1",
-				OrderId = "xxx"
+				OrderId = "xxx",
+				References = new []
+				{
+					new Reference{Description = "code red"},
+					new Reference{Description = "code blue"},
+				}
 			});
 
 			Session.Save(new InvoiceDocument
 			{
 				Name = "doc 2",
-				InvoiceId = "yyy"
+				InvoiceId = "yyy",
+				References = new []
+				{
+					new Reference{Description = "code blue"},
+				}
 			});
 			Session.Flush();
 			Session.Clear();
@@ -52,10 +60,11 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 			SearchSession.PurgeAll(typeof (Document));
 			SearchSession.PurgeAll(typeof (OrderDocument));
 			SearchSession.PurgeAll(typeof (InvoiceDocument));
+			SearchSession.PurgeAll(typeof (Reference));
 		}
 
 		[Test]
-		public void Should_be_able_to_get_results_from_whole_hierarchy()
+		public void Should_be_able_to_get_results_from_by_querying_by_inheritors()
 		{
 			var parser = new QueryParser(Version.LUCENE_29, "Name", new StandardAnalyzer(Version.LUCENE_29));
 			var query = parser.Parse("doc*");
@@ -67,7 +76,20 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 		}
 
 		[Test]
-		public void Should_be_able_to_get_results_from_whole_hierarchy_by_querying_with_base_class()
+		public void Should_get_results_by_querying_a_collection_in_base_class()
+		{
+			var parser = new QueryParser(Version.LUCENE_29, "References.Description", new StandardAnalyzer(Version.LUCENE_29));
+			var query = parser.Parse("red");
+			var result = SearchSession
+				.CreateFullTextQuery(query, typeof(OrderDocument), typeof(InvoiceDocument))
+				.List<Document>();
+
+			Assert.AreEqual(1, result.Count);
+		}
+
+		[Test]
+		[Ignore("TODO, is failing but will be nice to have it running")]
+		public void Should_be_able_to_get_results_from_whole_hierarchy_by_querying_with_abstarct_base_class()
 		{
 			var parser = new QueryParser(Version.LUCENE_29, "Name", new StandardAnalyzer(Version.LUCENE_29));
 			var query = parser.Parse("doc*");

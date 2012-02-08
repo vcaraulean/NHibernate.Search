@@ -9,6 +9,10 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 		{
 			Id(x => x.Id, mapper => mapper.Generator(Generators.Identity));
 			Property(x => x.Name);
+			Bag(x => x.References, mapper =>
+			{
+				mapper.Cascade(Cascade.All);
+			}, relation => relation.OneToMany());
 		}
 	}
 
@@ -25,6 +29,15 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 		public InvoiceDocumentMap()
 		{
 			Property(x => x.InvoiceId);
+		}
+	}
+
+	public class ReferenceMap : ClassMapping<Reference>
+	{
+		public ReferenceMap()
+		{
+			Id(x => x.Id, mapper => mapper.Generator(Generators.Identity));
+			Property(x => x.Description);
 		}
 	}
 }
