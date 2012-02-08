@@ -188,11 +188,12 @@ namespace NHibernate.Search.Fluent.Mapping
 
 		public void AssertIsValid()
 		{
-			if (string.IsNullOrEmpty((this as IDocumentMap).Name))
+			var documentMap = this as IDocumentMap;
+			if (string.IsNullOrEmpty(documentMap.Name))
 				throw new DocumentMappingException("Index name cannot be null or empty");
 
-			if ((this as IDocumentMap).IdProperty == null)
-				throw new DocumentMappingException("Document Id cannot be null");
+			if (documentMap.IdProperty == null)
+				throw new DocumentMappingException("Document Id cannot be null. Document type " + documentMap.DocumentType);
 		}
 	}
 }
