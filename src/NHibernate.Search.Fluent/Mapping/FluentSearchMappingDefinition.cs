@@ -19,6 +19,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		private readonly IDictionary<Type, IList<IClassBridgeDefinition>> classBridges;
 		private readonly IDictionary<MemberInfo, IIndexedEmbeddedDefinition> embeddings;
 		private readonly IDictionary<MemberInfo, IList<IFieldDefinition>> fields;
+		private readonly IDictionary<MemberInfo, IFieldBridgeDefinition> fieldBridges;
 
 		public FluentSearchMappingDefinition(IDocumentMap documentMap)
 			: this(new []{documentMap})
@@ -34,6 +35,7 @@ namespace NHibernate.Search.Fluent.Mapping
 			classBridges = new Dictionary<Type, IList<IClassBridgeDefinition>>();
 			embeddings = new Dictionary<MemberInfo, IIndexedEmbeddedDefinition>();
 			fields = new Dictionary<MemberInfo, IList<IFieldDefinition>>();
+			fieldBridges = new Dictionary<MemberInfo, IFieldBridgeDefinition>();
 			
 			foreach (var map in documentMaps)
 			{
@@ -45,7 +47,8 @@ namespace NHibernate.Search.Fluent.Mapping
 				analyzers = analyzers.Concat(map.Analyzers).ToDictionary(x => x.Key, x => x.Value);
 				Merge(map.EmbeddedDefs);
 				Merge(map.FieldMappings);
-				//fields.Concat(map.FieldMappings).ToDictionary(x => x.Key, x => x.Value);
+
+				fieldBridges = fieldBridges.Concat(map.FieldBridges).ToDictionary(x => x.Key, x => x.Value);
 			}
 		}
 
@@ -95,6 +98,9 @@ namespace NHibernate.Search.Fluent.Mapping
 
 		public IFieldBridgeDefinition FieldBridge(MemberInfo member)
 		{
+			IFieldBridgeDefinition def;
+			if (fieldBridges.TryGetValue(member, out def))
+				return def;
 			return null;
 		}
 

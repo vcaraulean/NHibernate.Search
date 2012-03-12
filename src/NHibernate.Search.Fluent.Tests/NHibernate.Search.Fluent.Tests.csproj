@@ -70,6 +70,8 @@
   <ItemGroup>
     <Compile Include="Cfg\FluentConfigurationTests.cs" />
     <Compile Include="FluentSearchTestBase.cs" />
+    <Compile Include="Integration\Bridge\Customer.cs" />
+    <Compile Include="Integration\Bridge\CustomFieldBridgeTests.cs" />
     <Compile Include="Integration\Domain.cs" />
     <Compile Include="Integration\DomainNHibernateMappings.cs" />
     <Compile Include="Integration\DomainSearchMapping.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="Mapping\FluentMappings\BoostPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\ClassBridgeMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\EmbeddedPropertiesMappingTest.cs" />
+    <Compile Include="Mapping\FluentMappings\FieldBridgeMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\FieldPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\IdPropertyMappingTest.cs" />
     <Compile Include="Mapping\FluentMappings\IndexedPropertyMappingTest.cs" />

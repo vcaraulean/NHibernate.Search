@@ -23,7 +23,8 @@ namespace NHibernate.Search.Fluent.Mapping
 		IDictionary<ICustomAttributeProvider, Type> Analyzers { get; }
 		IList<IClassBridgeDefinition> ClassBridges { get; }
 		IDictionary<MemberInfo, IList<IFieldDefinition>> FieldMappings { get; }
-		IDictionary<MemberInfo, IIndexedEmbeddedDefinition> EmbeddedDefs { get; } 
+		IDictionary<MemberInfo, IIndexedEmbeddedDefinition> EmbeddedDefs { get; }
+		IDictionary<MemberInfo, IFieldBridgeDefinition> FieldBridges { get; }
 	}
 
 	public abstract class DocumentMap<T> : IDocumentMap
@@ -33,6 +34,7 @@ namespace NHibernate.Search.Fluent.Mapping
 		private readonly IList<ClassBridgePart<T>> classBridges;
 		private readonly IDictionary<MemberInfo, IList<FieldMappingPart>> fieldMappings;
 		private readonly IDictionary<MemberInfo, EmbeddedMappingPart> embeddedMappings;
+		private readonly IDictionary<MemberInfo, FieldBridgePart> fieldBridges;
 
 		protected DocumentMap()
 		{
@@ -43,6 +45,7 @@ namespace NHibernate.Search.Fluent.Mapping
 			classBridges = new List<ClassBridgePart<T>>();
 			fieldMappings = new Dictionary<MemberInfo, IList<FieldMappingPart>>();
 			embeddedMappings = new Dictionary<MemberInfo, EmbeddedMappingPart>();
+			fieldBridges = new Dictionary<MemberInfo, FieldBridgePart>();
 		}
 
 		Type IDocumentMap.DocumentType
@@ -89,6 +92,19 @@ namespace NHibernate.Search.Fluent.Mapping
 				foreach(var embeddedMap in embeddedMappings)
 				{
 					result.Add(embeddedMap.Key, embeddedMap.Value.EmbeddedDefinition);
+				}
+				return result;
+			}
+		}
+
+		IDictionary<MemberInfo, IFieldBridgeDefinition> IDocumentMap.FieldBridges
+		{
+			get 
+			{ 
+				var result = new Dictionary<MemberInfo, IFieldBridgeDefinition>();
+				foreach (var fieldBridgePart in fieldBridges)
+				{
+					result.Add(fieldBridgePart.Key, fieldBridgePart.Value.BridgeDef);
 				}
 				return result;
 			}
@@ -183,6 +199,13 @@ namespace NHibernate.Search.Fluent.Mapping
 		{
 			var part = new EmbeddedMappingPart();
 			embeddedMappings.Add(property.ToPropertyInfo(), part);
+			return part;
+		}
+
+		protected FieldBridgePart FieldBridge(Expression<Func<T, object>> property)
+		{
+			var part = new FieldBridgePart();
+			fieldBridges.Add(property.ToPropertyInfo(), part);
 			return part;
 		}
 

@@ -15,6 +15,5 @@ namespace NHibernate.Search.Fluent.Mapping.Definitions
 		public Attributes.Store Store { get; set; }
 		public Index Index { get; set; }
 		public System.Type Analyzer { get; set; }
-		public FieldBridgeAttribute FieldBridge { get; set; }
 	}
 }

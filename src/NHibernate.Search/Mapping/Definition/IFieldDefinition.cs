@@ -26,11 +26,5 @@ namespace NHibernate.Search.Mapping.Definition
 		/// the inherited analyzer
 		/// </summary>
 		System.Type Analyzer { get; set; }
-
-		/// <summary>
-		/// Field bridge used. Default is autowired.
-		/// </summary>
-		/// TODO: Not sure if this is correct
-		FieldBridgeAttribute FieldBridge { get; set; }
 	}
 }
