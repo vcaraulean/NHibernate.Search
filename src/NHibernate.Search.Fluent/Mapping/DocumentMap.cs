@@ -171,7 +171,12 @@ namespace NHibernate.Search.Fluent.Mapping
 			return Analyzer().Custom<TAnalyzer>();
 		}
 
-		protected ClassBridgePart<T> Bridge<TBridge>() where TBridge : IFieldBridge
+		/// <summary>
+		/// Defining a class bridge
+		/// </summary>
+		/// <typeparam name="TBridge">Bridge type</typeparam>
+		/// <returns></returns>
+		protected ClassBridgePart<T> ClassBridge<TBridge>() where TBridge : IFieldBridge
 		{
 			var newPart = new ClassBridgePart<T>(typeof(TBridge));
 			classBridges.Add(newPart);
@@ -201,7 +206,12 @@ namespace NHibernate.Search.Fluent.Mapping
 			embeddedMappings.Add(property.ToPropertyInfo(), part);
 			return part;
 		}
-
+		
+		/// <summary>
+		/// Defining a bridge for a field
+		/// </summary>
+		/// <param name="property">field to attach the bridge</param>
+		/// <returns></returns>
 		protected FieldBridgePart FieldBridge(Expression<Func<T, object>> property)
 		{
 			var part = new FieldBridgePart();

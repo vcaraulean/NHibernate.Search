@@ -66,7 +66,7 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 			public DocMap()
 			{
 				Id(x => x.Id);
-				Bridge<DocBridge>()
+				ClassBridge<DocBridge>()
 					.Boost(1.2f)
 					.Analyzer().Keyword()
 					.Index().UnTokenized()
@@ -79,9 +79,9 @@ namespace NHibernate.Search.Fluent.Tests.Mapping.FluentMappings
 			public DocMapWithTwoBridges()
 			{
 				Id(x => x.Id);
-				Bridge<DocBridge>();
+				ClassBridge<DocBridge>();
 				
-				Bridge<DocBridge2>()
+				ClassBridge<DocBridge2>()
 					.Name("b2");
 			}
 		}
