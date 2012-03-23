@@ -29,6 +29,7 @@ namespace NHibernate.Search.Fluent.Tests.Integration
 			Id(x => x.Id);
 			Map(x => x.Name)
 				.Index().Tokenized()
+				.Boost(1.7f)
 				.Store().Yes();
 		}
 	}

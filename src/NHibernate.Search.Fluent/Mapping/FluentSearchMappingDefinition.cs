@@ -43,12 +43,21 @@ namespace NHibernate.Search.Fluent.Mapping
 				documentIDs[map.IdProperty] = map.IdProperty;
 				classBridges.Add(map.DocumentType, map.ClassBridges);
 				
-				boostValues = boostValues.Concat(map.BoostValues).ToDictionary(x => x.Key, x => x.Value);
+				Merge(map.BoostValues);
 				analyzers = analyzers.Concat(map.Analyzers).ToDictionary(x => x.Key, x => x.Value);
 				Merge(map.EmbeddedDefs);
 				Merge(map.FieldMappings);
 
 				fieldBridges = fieldBridges.Concat(map.FieldBridges).ToDictionary(x => x.Key, x => x.Value);
+			}
+		}
+
+		private void Merge(IDictionary<ICustomAttributeProvider, float> boostDefs)
+		{
+			foreach (var boostDef in boostDefs)
+			{
+				if (boostValues.ContainsKey(boostDef.Key) == false)
+					boostValues[boostDef.Key] = boostDef.Value;
 			}
 		}
 

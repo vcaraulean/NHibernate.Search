@@ -9,10 +9,9 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 		{
 			Id(x => x.Id, mapper => mapper.Generator(Generators.Identity));
 			Property(x => x.Name);
-			Bag(x => x.References, mapper =>
-			{
-				mapper.Cascade(Cascade.All);
-			}, relation => relation.OneToMany());
+			Bag(x => x.References,
+			    mapper => mapper.Cascade(Cascade.All),
+			    relation => relation.OneToMany());
 		}
 	}
 

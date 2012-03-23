@@ -18,7 +18,9 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 		public DocumentSearchMap()
 		{
 			Id(x => x.Id);
-			Map(x => x.Name);
+			Map(x => x.Name)
+				.Boost(1.7f)
+				.Analyzer().Keyword();
 			Embedded(x => x.References);
 		}
 	}
