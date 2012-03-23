@@ -48,5 +48,28 @@ namespace NHibernate.Search.Fluent
 			var info = member as PropertyInfo;
 			return info != null ? info.PropertyType : ((FieldInfo)member).FieldType;
 		}
+
+		public static PropertyInfo GetProperty<MODEL, T>(Expression<Func<MODEL, T>> expression)
+		{
+			MemberExpression memberExpression = getMemberExpression(expression);
+			return (PropertyInfo)memberExpression.Member;
+		}
+
+		private static MemberExpression getMemberExpression<MODEL, T>(Expression<Func<MODEL, T>> expression)
+		{
+			MemberExpression memberExpression = null;
+			if (expression.Body.NodeType == ExpressionType.Convert)
+			{
+				var body = (UnaryExpression)expression.Body;
+				memberExpression = body.Operand as MemberExpression;
+			}
+			else if (expression.Body.NodeType == ExpressionType.MemberAccess)
+			{
+				memberExpression = expression.Body as MemberExpression;
+			}
+
+			if (memberExpression == null) throw new ArgumentException("Not a member access", "expression");
+			return memberExpression;
+		}
 	}
 }

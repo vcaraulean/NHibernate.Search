@@ -16,7 +16,7 @@ namespace NHibernate.Search.Fluent.Tests
 		protected IFullTextSession SearchSession;
 
 		private ISessionFactory sessionFactory;
-		
+
 		[SetUp]
 		public void SetUp()
 		{
@@ -41,17 +41,19 @@ namespace NHibernate.Search.Fluent.Tests
 			ConfigureSearch(configuration);
 
 			sessionFactory = configuration.BuildSessionFactory();
-			
+
 			Session = sessionFactory.OpenSession();
 			SearchSession = Search.CreateFullTextSession(Session);
-			
+
 			new SchemaExport(configuration)
 				.Execute(false, true, false, Session.Connection, null);
 
 			AfterSetup();
 		}
 
-		protected virtual void AfterSetup() { }
+		protected virtual void AfterSetup()
+		{
+		}
 
 		protected virtual void ConfigureSearch(Configuration cfg) { }
 
@@ -63,6 +65,8 @@ namespace NHibernate.Search.Fluent.Tests
 				sessionFactory.Dispose();
 		}
 
-		protected virtual void Cleanup() { }
+		protected virtual void Cleanup()
+		{
+		}
 	}
 }

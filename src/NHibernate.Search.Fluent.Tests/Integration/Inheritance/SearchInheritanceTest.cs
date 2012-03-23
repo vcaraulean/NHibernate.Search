@@ -1,8 +1,6 @@
 ﻿using Lucene.Net.Analysis.Standard;
 using Lucene.Net.QueryParsers;
 using NHibernate.Cfg;
-using NHibernate.Event;
-using NHibernate.Search.Event;
 using NHibernate.Search.Fluent.Cfg;
 using NUnit.Framework;
 using Version = Lucene.Net.Util.Version;
@@ -20,13 +18,6 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 				.IndexingStrategy().Event()
 				.IndexBase("LuceneIndex")
 				.DirectoryProvider().FSDirectory();
-
-			cfg.SetListener(ListenerType.PostUpdate, new FullTextIndexEventListener());
-			cfg.SetListener(ListenerType.PostInsert, new FullTextIndexEventListener());
-			cfg.SetListener(ListenerType.PostDelete, new FullTextIndexEventListener());
-			cfg.SetListener(ListenerType.PostCollectionRecreate, new FullTextIndexCollectionEventListener());
-			cfg.SetListener(ListenerType.PostCollectionRemove, new FullTextIndexCollectionEventListener());
-			cfg.SetListener(ListenerType.PostCollectionUpdate, new FullTextIndexCollectionEventListener());
 		}
 
 		protected override void AfterSetup()
@@ -38,7 +29,7 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 				References = new []
 				{
 					new Reference{Description = "code red"},
-					new Reference{Description = "code blue"},
+					new Reference{Description = "code blue"}
 				}
 			});
 
@@ -48,7 +39,7 @@ namespace NHibernate.Search.Fluent.Tests.Integration.Inheritance
 				InvoiceId = "yyy",
 				References = new []
 				{
-					new Reference{Description = "code blue"},
+					new Reference{Description = "code blue"}
 				}
 			});
 			Session.Flush();

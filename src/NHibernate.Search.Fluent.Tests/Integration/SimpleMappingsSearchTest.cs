@@ -2,8 +2,6 @@
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Util;
 using NHibernate.Cfg;
-using NHibernate.Event;
-using NHibernate.Search.Event;
 using NHibernate.Search.Fluent.Cfg;
 using NUnit.Framework;
 
@@ -19,13 +17,6 @@ namespace NHibernate.Search.Fluent.Tests.Integration
 				.MappingClass<DomainSearchMapping>()
 				.IndexingStrategy().Event()
 				.DirectoryProvider().RAMDirectory();
-
-			cfg.SetListener(ListenerType.PostUpdate, new FullTextIndexEventListener());
-			cfg.SetListener(ListenerType.PostInsert, new FullTextIndexEventListener());
-			cfg.SetListener(ListenerType.PostDelete, new FullTextIndexEventListener());
-			cfg.SetListener(ListenerType.PostCollectionRecreate, new FullTextIndexCollectionEventListener());
-			cfg.SetListener(ListenerType.PostCollectionRemove, new FullTextIndexCollectionEventListener());
-			cfg.SetListener(ListenerType.PostCollectionUpdate, new FullTextIndexCollectionEventListener());
 		}
 
 		protected override void AfterSetup()

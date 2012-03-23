@@ -81,6 +81,7 @@
     <Compile Include="Mapping\Parts\IHasFieldBridge.cs" />
     <Compile Include="Mapping\Parts\IndexPart.cs" />
     <Compile Include="Mapping\Parts\StorePart.cs" />
+    <Compile Include="NHibernateConfigurationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionExtensions.cs" />
   </ItemGroup>
