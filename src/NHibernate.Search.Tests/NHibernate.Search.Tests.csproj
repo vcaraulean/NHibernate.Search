@@ -206,6 +206,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="hibernate.cfg.xml.template" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Bridge\Cloud.hbm.xml" />
@@ -317,6 +318,10 @@
     <EmbeddedResource Include="DocumentTop.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="hibernate.cfg.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
     <EmbeddedResource Include="Embedded\DoubleInsert\BusinessContact.hbm.xml" />
     <EmbeddedResource Include="Embedded\DoubleInsert\Phone.hbm.xml" />
     <Content Include="Filter\Soap.hbm.xml" />
